@@ -28,11 +28,26 @@
             background-color: var(--light);
         }
 
+        /* Fix horizontal scrolling on mobile */
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
+        }
+
+        /* Ensure all sections respect the viewport width */
+        .section, header, footer {
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
+
+        /* Fix potential issues with container width */
         .container {
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 15px;
+            padding: 0 20px;
+            box-sizing: border-box;
         }
 
         /* Header Styles */
@@ -787,6 +802,34 @@
             
             .logo {
                 margin-left: 5px;
+            }
+            
+            .section {
+                padding: 60px 0;
+            }
+            
+            .section-title {
+                margin-bottom: 40px;
+            }
+            
+            /* Ensure service cards don't cause overflow */
+            .services-grid, .locations-grid {
+                padding: 0 5px;
+            }
+            
+            /* Adjust testimonial section for mobile */
+            .testimonial-slide {
+                padding: 30px 20px;
+            }
+            
+            /* Fix potential issues with contact section */
+            .contact-content {
+                padding: 0 5px;
+            }
+            
+            /* Ensure footer content doesn't overflow */
+            .footer-content {
+                padding: 0 5px;
             }
         }
 
