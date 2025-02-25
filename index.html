@@ -650,6 +650,7 @@
             position: relative;
             transform: translateY(-50px);
             transition: transform 0.3s;
+            padding-top: 60px;
         }
 
         .modal.show .modal-content {
@@ -664,10 +665,20 @@
             cursor: pointer;
             color: var(--gray);
             transition: color 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--light-gray);
+            border-radius: 50%;
+            border: none;
+            z-index: 10;
         }
 
         .close-modal:hover {
             color: var(--dark);
+            background-color: #ddd;
         }
 
         .modal-header {
@@ -1177,12 +1188,14 @@
     <!-- Service Modals -->
     <div class="modal" id="serviceModal">
         <div class="modal-content">
-            <span class="close-modal">&times;</span>
+            <button class="close-modal" aria-label="Close modal">
+                <i class="fas fa-times"></i>
+            </button>
             <div class="modal-header">
                 <h3 id="modalTitle">Service Details</h3>
             </div>
             <div class="modal-body" id="modalBody">
-                <!-- Content will be dynamically inserted here -->
+                <!-- Modal content will be inserted here dynamically -->
             </div>
         </div>
     </div>
@@ -1491,6 +1504,13 @@
 
         window.addEventListener('click', (e) => {
             if (e.target === modal) {
+                modal.classList.remove('show');
+            }
+        });
+
+        // Close modal when pressing Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('show')) {
                 modal.classList.remove('show');
             }
         });
