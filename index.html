@@ -803,6 +803,38 @@
                 font-size: 2rem;
             }
         }
+
+        /* Bottom close button for modals on mobile */
+        .mobile-close-btn {
+            display: none;
+            width: 100%;
+            padding: 15px;
+            margin-top: 30px;
+            background-color: var(--light-gray);
+            color: var(--secondary);
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .mobile-close-btn:hover {
+            background-color: #ddd;
+        }
+
+        /* Show bottom close button only on mobile */
+        @media (max-width: 768px) {
+            .mobile-close-btn {
+                display: block;
+            }
+            
+            /* Add more bottom padding to modal content for the button */
+            .modal-content {
+                padding-bottom: 40px;
+            }
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -1197,6 +1229,7 @@
             <div class="modal-body" id="modalBody">
                 <!-- Modal content will be inserted here dynamically -->
             </div>
+            <button class="mobile-close-btn">Close</button>
         </div>
     </div>
 
@@ -1296,6 +1329,7 @@
         const modalTitle = document.getElementById('modalTitle');
         const modalBody = document.getElementById('modalBody');
         const closeModal = document.querySelector('.close-modal');
+        const mobileCloseBtn = document.querySelector('.mobile-close-btn');
         const serviceLinks = document.querySelectorAll('[data-service]');
 
         const serviceDetails = {
@@ -1499,6 +1533,10 @@
         });
 
         closeModal.addEventListener('click', () => {
+            modal.classList.remove('show');
+        });
+
+        mobileCloseBtn.addEventListener('click', () => {
             modal.classList.remove('show');
         });
 
