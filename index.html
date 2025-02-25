@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELK Roofing - Denver & Houston's Premier Roofing Contractor</title>
+    <style>
+        :root {
+            --primary: #116930;
+            --secondary: #3f3f3f;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --white: #ffffff;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            overflow-x: hidden;
+            color: var(--dark);
+            background-color: var(--light);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            height: 60px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--secondary);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--secondary);
+        }
+
+        /* Hero Section */
+        .hero {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            color: var(--white);
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            max-width: 700px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--primary);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #0d5526;
+            transform: translateY(-3px);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            margin-left: 15px;
+        }
+
+        .btn-secondary:hover {
+            background-color: #2a2a2a;
+        }
+
+        /* About Section */
+        .section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .about-img {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .about-text p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        /* Services Section */
+        .services {
+            background-color: var(--light-gray);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .service-img {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .service-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .service-card:hover .service-img img {
+            transform: scale(1.1);
+        }
+
+        .service-content {
+            padding: 25px;
+        }
+
+        .service-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .service-content p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            color: var(--gray);
+        }
+
+        .read-more {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        .read-more span {
+            margin-left: 5px;
+            transition: margin-left 0.3s;
+        }
+
+        .read-more:hover span {
+            margin-left: 10px;
+        }
+
+        /* Locations Section */
+        .locations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .location-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .location-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .location-img {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .location-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .location-content {
+            padding: 25px;
+        }
+
+        .location-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .location-content p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .testimonials .section-title h2 {
+            color: var(--white);
+        }
+
+        .testimonials .section-title p {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .testimonial-arrows {
+            position: absolute;
+            width: 110%;  /* Make wider than the slider to position arrows outside */
+            top: 50%;
+            left: -5%;    /* Offset to account for the wider width */
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            z-index: 10;
+            pointer-events: none;  /* This ensures clicks pass through to elements below */
+        }
+
+        .testimonial-arrow {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--white);
+            font-size: 1.5rem;
+            pointer-events: auto;  /* Re-enable pointer events for the arrows themselves */
+        }
+
+        .testimonial-arrow:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: scale(1.1);
+        }
+
+        .testimonial-slider {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px 0;
+        }
+
+        .testimonial-slide {
+            text-align: center;
+            padding: 0 50px;
+            display: none;
+        }
+
+        .testimonial-slide.active {
+            display: block;
+        }
+
+        .testimonial-content {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .testimonial-content::before,
+        .testimonial-content::after {
+            content: '"';
+            font-size: 4rem;
+            position: absolute;
+            opacity: 0.3;
+        }
+
+        .testimonial-content::before {
+            top: -20px;
+            left: -40px;
+        }
+
+        .testimonial-content::after {
+            bottom: -60px;
+            right: -40px;
+        }
+
+        .testimonial-author {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .testimonial-role {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .testimonial-nav {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .testimonial-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .testimonial-dot.active {
+            background-color: var(--white);
+        }
+
+        /* Contact Section */
+        .contact-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.2rem;
+        }
+
+        .contact-details h3 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: var(--primary);
+        }
+
+        .contact-details p, .contact-details a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contact-details a:hover {
+            color: var(--primary);
+        }
+
+        .contact-form {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .btn-submit {
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: #0d5526;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--secondary);
+            color: var(--white);
+            padding: 60px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo img {
+            height: 60px;
+            margin-bottom: 20px;
+        }
+
+        .footer-about p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .social-link:hover {
+            background-color: var(--primary);
+        }
+
+        .footer-links h3, .footer-contact h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+        }
+
+        .footer-contact p {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .footer-contact i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .modal.show {
+            display: block;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            margin: 10% auto;
+            padding: 40px;
+            border-radius: 10px;
+            max-width: 800px;
+            position: relative;
+            transform: translateY(-50px);
+            transition: transform 0.3s;
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: var(--dark);
+        }
+
+        .modal-header {
+            margin-bottom: 30px;
+        }
+
+        .modal-header h3 {
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+
+        .modal-body p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .modal-body h4 {
+            margin: 30px 0 15px;
+            color: var(--primary);
+            font-size: 1.3rem;
+        }
+
+        .modal-body ul {
+            margin-bottom: 25px;
+            padding-left: 20px;
+        }
+
+        .modal-body li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .testimonial-arrows {
+                width: 100%;
+                left: 0;
+            }
+            
+            .testimonial-arrow {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+            
+            .prev-testimonial {
+                left: -25px;
+            }
+            
+            .next-testimonial {
+                right: -25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 90px;
+                left: 0;
+                width: 100%;
+                background-color: var(--white);
+                flex-direction: column;
+                padding: 20px 0;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-links.show {
+                display: flex;
+            }
+            
+            .nav-links li {
+                margin: 10px 0;
+                text-align: center;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .btn {
+                display: block;
+                margin-bottom: 15px;
+                text-align: center;
+            }
+            
+            .btn-secondary {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .section {
+                padding: 60px 0;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo-container">
+                <img src="logo.png" alt="ELK Roofing Logo" class="logo">
+            </a>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#locations">Locations</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Quality Roofing Solutions for Your Home & Business</h1>
+                <p>ELK Roofing provides top-quality roofing services in Denver and Houston areas. With years of experience, we deliver exceptional results that protect what matters most.</p>
+                <a href="#contact" class="btn">Get a Free Estimate</a>
+                <a href="#services" class="btn btn-secondary">Our Services</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>About ELK Roofing</h2>
+                <p>Your trusted partner for all roofing and exterior needs</p>
+            </div>
+            <div class="about-content">
+                <div class="about-img">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="ELK Roofing Team">
+                </div>
+                <div class="about-text">
+                    <h3>Why Choose ELK Roofing?</h3>
+                    <p>Since our founding, ELK Roofing has been committed to providing exceptional roofing services to homeowners and businesses throughout Denver, Houston, and surrounding areas. Our team of skilled professionals brings years of experience and dedication to every project.</p>
+                    <p>We pride ourselves on using only the highest quality materials and employing the latest techniques to ensure your roof not only looks great but provides lasting protection for your property. Our commitment to excellence has earned us a reputation as one of the most trusted roofing companies in the regions we serve.</p>
+                    <p>At ELK Roofing, we believe in transparent communication, fair pricing, and exceptional customer service. We're not satisfied until you are, and we stand behind our work with industry-leading warranties.</p>
+                    <a href="#contact" class="btn">Contact Us Today</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="section services" id="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Services</h2>
+                <p>Comprehensive roofing and exterior solutions for residential and commercial properties</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="Residential Roofing">
+                    </div>
+                    <div class="service-content">
+                        <h3>Residential Roofing</h3>
+                        <p>Protect your home with our expert residential roofing services. We offer installation, repair, and replacement for all types of residential roofs.</p>
+                        <a href="#" class="read-more" data-service="residential">Learn More <span>&rarr;</span></a>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1590381105924-c72589b9ef3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="Commercial Roofing">
+                    </div>
+                    <div class="service-content">
+                        <h3>Commercial Roofing</h3>
+                        <p>Our commercial roofing solutions are designed to minimize disruption to your business while providing durable, long-lasting protection.</p>
+                        <a href="#" class="read-more" data-service="commercial">Learn More <span>&rarr;</span></a>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="Siding Installation">
+                    </div>
+                    <div class="service-content">
+                        <h3>Siding Installation</h3>
+                        <p>Enhance your home's appearance and energy efficiency with our professional siding installation services.</p>
+                        <a href="#" class="read-more" data-service="siding">Learn More <span>&rarr;</span></a>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="Storm Damage Repair">
+                    </div>
+                    <div class="service-content">
+                        <h3>Storm Damage Repair</h3>
+                        <p>When disaster strikes, our emergency storm damage repair services help you quickly recover and protect your property.</p>
+                        <a href="#" class="read-more" data-service="storm">Learn More <span>&rarr;</span></a>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1605283176568-9b41fde3672e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="Gutter Installation">
+                    </div>
+                    <div class="service-content">
+                        <h3>Gutter Installation</h3>
+                        <p>Protect your home's foundation with our seamless gutter installation and maintenance services.</p>
+                        <a href="#" class="read-more" data-service="gutter">Learn More <span>&rarr;</span></a>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1503708928676-1cb796a0891e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="Solar Panel Installation">
+                    </div>
+                    <div class="service-content">
+                        <h3>Solar Panel Installation</h3>
+                        <p>Reduce your energy costs and environmental impact with our professional solar panel installation services.</p>
+                        <a href="#" class="read-more" data-service="solar">Learn More <span>&rarr;</span></a>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1503708928676-1cb796a0891e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="Window Installation">
+                    </div>
+                    <div class="service-content">
+                        <h3>Window Installation</h3>
+                        <p>Improve your home's energy efficiency and curb appeal with our quality window installation services.</p>
+                        <a href="#" class="read-more" data-service="window">Learn More <span>&rarr;</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Locations Section -->
+    <section class="section" id="locations">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Locations</h2>
+                <p>Serving Denver, Houston, and surrounding areas with exceptional roofing services</p>
+            </div>
+            <div class="locations-grid">
+                <div class="location-card">
+                    <div class="location-img">
+                        <img src="https://images.unsplash.com/photo-1546156929-a4c0ac411f47?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="Denver">
+                    </div>
+                    <div class="location-content">
+                        <h3>Denver, Colorado</h3>
+                        <p>Serving Denver and the surrounding areas including Aurora, Lakewood, Arvada, Westminster, and more.</p>
+                        <p><strong>Address:</strong> 1234 Denver Blvd, Denver, CO 80202</p>
+                        <p><strong>Phone:</strong> (303) 555-1234</p>
+                        <a href="#contact" class="btn">Contact Us</a>
+                    </div>
+                </div>
+                <div class="location-card">
+                    <div class="location-img">
+                        <img src="https://images.unsplash.com/photo-1546156929-a4c0ac411f47?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="Houston">
+                    </div>
+                    <div class="location-content">
+                        <h3>Houston, Texas</h3>
+                        <p>Serving Houston and the surrounding areas including Sugar Land, Katy, The Woodlands, Pearland, and more.</p>
+                        <p><strong>Address:</strong> 5678 Houston Ave, Houston, TX 77002</p>
+                        <p><strong>Phone:</strong> (713) 555-5678</p>
+                        <a href="#contact" class="btn">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="section testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>What Our Clients Say</h2>
+                <p>Don't just take our word for it - hear from our satisfied customers</p>
+            </div>
+            <div class="testimonial-slider">
+                <div class="testimonial-arrows">
+                    <div class="testimonial-arrow prev-testimonial">
+                        <i class="fas fa-angle-left"></i>
+                    </div>
+                    <div class="testimonial-arrow next-testimonial">
+                        <i class="fas fa-angle-right"></i>
+                    </div>
+                </div>
+                <div class="testimonial-slide active">
+                    <div class="testimonial-content">
+                        ELK Roofing replaced our roof after a severe hailstorm, and we couldn't be happier with the results. Their team was professional, efficient, and cleaned up thoroughly after the job was done. I highly recommend them for any roofing needs!
+                    </div>
+                    <div class="testimonial-author">Michael Johnson</div>
+                    <div class="testimonial-role">Denver, CO</div>
+                </div>
+                <div class="testimonial-slide">
+                    <div class="testimonial-content">
+                        We had ELK install new siding on our home, and they did an outstanding job. The crew was courteous, the work was completed on schedule, and our house looks amazing. Their attention to detail really sets them apart.
+                    </div>
+                    <div class="testimonial-author">Sarah Williams</div>
+                    <div class="testimonial-role">Houston, TX</div>
+                </div>
+                <div class="testimonial-slide">
+                    <div class="testimonial-content">
+                        After getting quotes from several companies, we chose ELK Roofing for our commercial building roof replacement. They offered competitive pricing and delivered exceptional quality. The project was completed with minimal disruption to our business operations.
+                    </div>
+                    <div class="testimonial-author">David Thompson</div>
+                    <div class="testimonial-role">Business Owner, Denver</div>
+                </div>
+                <div class="testimonial-slide">
+                    <div class="testimonial-content">
+                        ELK Roofing installed solar panels on our home last year, and we've seen a significant reduction in our energy bills. Their team explained everything clearly and helped us understand the benefits. The installation was quick and professional.
+                    </div>
+                    <div class="testimonial-author">Jennifer Garcia</div>
+                    <div class="testimonial-role">Houston, TX</div>
+                </div>
+                <div class="testimonial-nav">
+                    <div class="testimonial-dot active" data-slide="0"></div>
+                    <div class="testimonial-dot" data-slide="1"></div>
+                    <div class="testimonial-dot" data-slide="2"></div>
+                    <div class="testimonial-dot" data-slide="3"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section" id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Contact Us</h2>
+                <p>Get in touch for a free estimate or to learn more about our services</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Denver Office</h3>
+                            <p>1234 Denver Blvd, Denver, CO 80202</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Houston Office</h3>
+                            <p>5678 Houston Ave, Houston, TX 77002</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Phone</h3>
+                            <p>Denver: (303) 555-1234</p>
+                            <p>Houston: (713) 555-5678</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Email</h3>
+                            <a href="mailto:info@elkroofing.com">info@elkroofing.com</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Business Hours</h3>
+                            <p>Monday - Friday: 8:00 AM - 6:00 PM</p>
+                            <p>Saturday: 9:00 AM - 2:00 PM</p>
+                            <p>Sunday: Closed</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="service">Service Interested In</label>
+                            <select id="service" class="form-control" required>
+                                <option value="" selected disabled>Select a service</option>
+                                <option value="residential">Residential Roofing</option>
+                                <option value="commercial">Commercial Roofing</option>
+                                <option value="siding">Siding Installation</option>
+                                <option value="storm">Storm Damage Repair</option>
+                                <option value="gutter">Gutter Installation</option>
+                                <option value="solar">Solar Panel Installation</option>
+                                <option value="window">Window Installation</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" class="form-control" required></textarea>
+                        </div>
+                        <button type="submit" class="btn-submit">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <img src="logo.png" alt="ELK Roofing Logo">
+                    </div>
+                    <p>ELK Roofing is your trusted partner for all roofing and exterior needs in Denver, Houston, and surrounding areas. We're committed to quality, integrity, and customer satisfaction.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#locations">Locations</a></li>
+                        <li><a href="#testimonials">Testimonials</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Our Services</h3>
+                    <ul>
+                        <li><a href="#" data-service="residential">Residential Roofing</a></li>
+                        <li><a href="#" data-service="commercial">Commercial Roofing</a></li>
+                        <li><a href="#" data-service="siding">Siding Installation</a></li>
+                        <li><a href="#" data-service="storm">Storm Damage Repair</a></li>
+                        <li><a href="#" data-service="gutter">Gutter Installation</a></li>
+                        <li><a href="#" data-service="solar">Solar Panel Installation</a></li>
+                        <li><a href="#" data-service="window">Window Installation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Denver: 1234 Denver Blvd, Denver, CO 80202</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Houston: 5678 Houston Ave, Houston, TX 77002</p>
+                    <p><i class="fas fa-phone-alt"></i> Denver: (303) 555-1234</p>
+                    <p><i class="fas fa-phone-alt"></i> Houston: (713) 555-5678</p>
+                    <p><i class="fas fa-envelope"></i> info@elkroofing.com</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 ELK Roofing. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Service Modals -->
+    <div class="modal" id="serviceModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h3 id="modalTitle">Service Details</h3>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+        });
+
+        // Smooth Scrolling for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                if (this.getAttribute('href') === '#') return;
+                
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (navLinks.classList.contains('show')) {
+                        navLinks.classList.remove('show');
+                    }
+                }
+            });
+        });
+
+        // Testimonial Slider
+        const testimonialSlides = document.querySelectorAll('.testimonial-slide');
+        const testimonialDots = document.querySelectorAll('.testimonial-dot');
+        const prevTestimonial = document.querySelector('.prev-testimonial');
+        const nextTestimonial = document.querySelector('.next-testimonial');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            // Handle wrapping around
+            if (index < 0) index = testimonialSlides.length - 1;
+            if (index >= testimonialSlides.length) index = 0;
+            
+            // Hide all slides first
+            testimonialSlides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+            testimonialDots.forEach(dot => {
+                dot.classList.remove('active');
+            });
+            
+            // Show the selected slide
+            testimonialSlides[index].classList.add('active');
+            testimonialDots[index].classList.add('active');
+            currentSlide = index;
+        }
+
+        // Set up dot navigation
+        testimonialDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showSlide(index);
+            });
+        });
+
+        // Set up arrow navigation
+        prevTestimonial.addEventListener('click', () => {
+            showSlide(currentSlide - 1);
+        });
+
+        nextTestimonial.addEventListener('click', () => {
+            showSlide(currentSlide + 1);
+        });
+
+        // Auto-rotate testimonials
+        let testimonialInterval = setInterval(() => {
+            showSlide(currentSlide + 1);
+        }, 6000);
+
+        // Pause auto-rotation when hovering over the slider
+        const testimonialSlider = document.querySelector('.testimonial-slider');
+        testimonialSlider.addEventListener('mouseenter', () => {
+            clearInterval(testimonialInterval);
+        });
+
+        testimonialSlider.addEventListener('mouseleave', () => {
+            testimonialInterval = setInterval(() => {
+                showSlide(currentSlide + 1);
+            }, 6000);
+        });
+
+        // Service Modal
+        const modal = document.getElementById('serviceModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+        const closeModal = document.querySelector('.close-modal');
+        const serviceLinks = document.querySelectorAll('[data-service]');
+
+        const serviceDetails = {
+            residential: {
+                title: "Residential Roofing",
+                content: `
+                    <p>Our residential roofing services are designed to provide homeowners with peace of mind and lasting protection. We offer a wide range of roofing options to suit your style, budget, and needs.</p>
+                    <h4>Our Residential Roofing Services Include:</h4>
+                    <ul>
+                        <li>Roof installation for new construction</li>
+                        <li>Complete roof replacement</li>
+                        <li>Roof repairs and maintenance</li>
+                        <li>Roof inspections and certifications</li>
+                        <li>Emergency roof repairs</li>
+                    </ul>
+                    <h4>Roofing Materials We Offer:</h4>
+                    <ul>
+                        <li>Asphalt shingles (3-tab, architectural, and premium)</li>
+                        <li>Metal roofing (standing seam, metal shingles)</li>
+                        <li>Tile roofing (clay, concrete)</li>
+                        <li>Slate roofing</li>
+                        <li>Wood shakes and shingles</li>
+                        <li>Flat roofing systems</li>
+                    </ul>
+                    <p>All our residential roofing services come with comprehensive warranties and are performed by our experienced, factory-trained installers.</p>
+                `
+            },
+            commercial: {
+                title: "Commercial Roofing",
+                content: `
+                    <p>ELK Roofing provides comprehensive commercial roofing solutions designed to protect your business investment while minimizing disruption to your operations.</p>
+                    <h4>Our Commercial Roofing Services Include:</h4>
+                    <ul>
+                        <li>New commercial roof installation</li>
+                        <li>Commercial roof replacement</li>
+                        <li>Roof repairs and maintenance programs</li>
+                        <li>Roof coatings and restoration</li>
+                        <li>Emergency leak repairs</li>
+                        <li>Preventative maintenance plans</li>
+                    </ul>
+                    <h4>Commercial Roofing Systems We Offer:</h4>
+                    <ul>
+                        <li>TPO (Thermoplastic Polyolefin)</li>
+                        <li>EPDM (Ethylene Propylene Diene Monomer)</li>
+                        <li>PVC (Polyvinyl Chloride)</li>
+                        <li>Modified Bitumen</li>
+                        <li>Built-Up Roofing (BUR)</li>
+                        <li>Metal Roofing Systems</li>
+                        <li>Green Roofing Solutions</li>
+                    </ul>
+                    <p>We understand that commercial roofing projects require careful planning and execution. Our team works closely with business owners and property managers to develop roofing solutions that meet their specific needs and budget constraints.</p>
+                `
+            },
+            siding: {
+                title: "Siding Installation",
+                content: `
+                    <p>Quality siding not only enhances your home's curb appeal but also provides essential protection against the elements. At ELK Roofing, we offer professional siding installation services using premium materials.</p>
+                    <h4>Benefits of New Siding:</h4>
+                    <ul>
+                        <li>Improved energy efficiency</li>
+                        <li>Enhanced curb appeal and property value</li>
+                        <li>Better protection against weather elements</li>
+                        <li>Reduced maintenance requirements</li>
+                        <li>Noise reduction</li>
+                    </ul>
+                    <h4>Siding Options We Offer:</h4>
+                    <ul>
+                        <li>Vinyl Siding</li>
+                        <li>Fiber Cement Siding</li>
+                        <li>Wood Siding</li>
+                        <li>Engineered Wood Siding</li>
+                        <li>Metal Siding</li>
+                        <li>Stone and Brick Veneer</li>
+                    </ul>
+                    <p>Our siding installation process includes a thorough inspection of your existing exterior, removal of old siding if necessary, preparation of the surface, and expert installation of your new siding. We pay close attention to details like proper insulation, ventilation, and trim work to ensure a beautiful and long-lasting result.</p>
+                `
+            },
+            storm: {
+                title: "Storm Damage Repair",
+                content: `
+                    <p>When severe weather strikes, ELK Roofing is here to help with prompt, professional storm damage repair services. We understand the stress and urgency that comes with storm damage, and we're committed to restoring your property quickly and effectively.</p>
+                    <h4>Our Storm Damage Services Include:</h4>
+                    <ul>
+                        <li>24/7 emergency response</li>
+                        <li>Comprehensive damage assessment</li>
+                        <li>Temporary protective measures (tarping, board-up)</li>
+                        <li>Full roof repairs or replacement</li>
+                        <li>Siding, gutter, and window repairs</li>
+                        <li>Insurance claim assistance</li>
+                    </ul>
+                    <h4>Types of Storm Damage We Address:</h4>
+                    <ul>
+                        <li>Wind damage (missing or lifted shingles, damaged flashing)</li>
+                        <li>Hail damage (dents, cracks, granule loss)</li>
+                        <li>Water damage (leaks, interior damage)</li>
+                        <li>Debris impact damage</li>
+                        <li>Lightning strikes</li>
+                        <li>Snow and ice damage</li>
+                    </ul>
+                    <p>Our experienced team works directly with insurance companies to streamline the claims process, ensuring you receive the coverage you're entitled to. We document all damage thoroughly and provide detailed estimates for repairs.</p>
+                `
+            },
+            gutter: {
+                title: "Gutter Installation",
+                content: `
+                    <p>Properly functioning gutters are essential for protecting your home's foundation, preventing water damage, and preserving your landscaping. ELK Roofing offers professional gutter installation services to ensure effective water management for your property.</p>
+                    <h4>Our Gutter Services Include:</h4>
+                    <ul>
+                        <li>Seamless gutter installation</li>
+                        <li>Gutter replacement</li>
+                        <li>Gutter repairs</li>
+                        <li>Downspout installation and repairs</li>
+                        <li>Gutter guard installation</li>
+                        <li>Regular gutter cleaning and maintenance</li>
+                    </ul>
+                    <h4>Gutter Options We Offer:</h4>
+                    <ul>
+                        <li>Aluminum gutters (seamless)</li>
+                        <li>Copper gutters</li>
+                        <li>Steel gutters</li>
+                        <li>Vinyl gutters</li>
+                        <li>Various sizes (5-inch, 6-inch, etc.)</li>
+                        <li>Custom colors to match your home's exterior</li>
+                    </ul>
+                    <p>Our seamless gutters are custom-formed on-site to fit your home perfectly, eliminating leaky seams and providing a clean, attractive appearance. We also offer a variety of gutter guards to prevent clogging and reduce maintenance.</p>
+                `
+            },
+            solar: {
+                title: "Solar Panel Installation",
+                content: `
+                    <p>Harness the power of the sun and reduce your energy costs with ELK Roofing's professional solar panel installation services. We provide complete solar solutions for residential and commercial properties.</p>
+                    <h4>Benefits of Solar Panel Installation:</h4>
+                    <ul>
+                        <li>Significant reduction in electricity bills</li>
+                        <li>Increased property value</li>
+                        <li>Reduced carbon footprint</li>
+                        <li>Tax incentives and rebates</li>
+                        <li>Energy independence</li>
+                        <li>Low maintenance requirements</li>
+                    </ul>
+                    <h4>Our Solar Services Include:</h4>
+                    <ul>
+                        <li>Comprehensive site assessment and system design</li>
+                        <li>High-efficiency solar panel installation</li>
+                        <li>Battery storage solutions</li>
+                        <li>Inverter installation and setup</li>
+                        <li>System monitoring and maintenance</li>
+                        <li>Assistance with permits and incentive applications</li>
+                    </ul>
+                    <p>Our team of certified solar installers works closely with you to design a system that meets your energy needs and budget. We handle all aspects of the installation process, from initial assessment to final inspection and activation.</p>
+                    <p>We partner with leading solar equipment manufacturers to provide reliable, high-performance systems backed by strong warranties.</p>
+                `
+            },
+            window: {
+                title: "Window Installation",
+                content: `
+                    <p>Enhance your home's beauty, energy efficiency, and comfort with ELK Roofing's professional window installation services. We offer a wide selection of high-quality windows to suit any architectural style and budget.</p>
+                    <h4>Benefits of New Windows:</h4>
+                    <ul>
+                        <li>Improved energy efficiency and lower utility bills</li>
+                        <li>Enhanced curb appeal and home value</li>
+                        <li>Better noise reduction</li>
+                        <li>Increased natural light</li>
+                        <li>Improved home security</li>
+                        <li>Reduced maintenance requirements</li>
+                    </ul>
+                    <h4>Window Styles We Offer:</h4>
+                    <ul>
+                        <li>Double-hung windows</li>
+                        <li>Casement windows</li>
+                        <li>Sliding windows</li>
+                        <li>Bay and bow windows</li>
+                        <li>Picture windows</li>
+                        <li>Awning windows</li>
+                        <li>Garden windows</li>
+                        <li>Custom shapes and sizes</li>
+                    </ul>
+                    <h4>Window Materials:</h4>
+                    <ul>
+                        <li>Vinyl</li>
+                        <li>Wood</li>
+                        <li>Fiberglass</li>
+                        <li>Aluminum</li>
+                        <li>Composite</li>
+                    </ul>
+                    <p>Our window installation process includes precise measurements, professional removal of old windows, expert installation with proper insulation and sealing, and thorough cleanup. All our window installations are backed by manufacturer warranties and our own workmanship guarantee.</p>
+                `
+            }
+        };
+
+        serviceLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const service = link.getAttribute('data-service');
+                if (serviceDetails[service]) {
+                    modalTitle.textContent = serviceDetails[service].title;
+                    modalBody.innerHTML = serviceDetails[service].content;
+                    modal.classList.add('show');
+                }
+            });
+        });
+
+        closeModal.addEventListener('click', () => {
+            modal.classList.remove('show');
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('show');
+            }
+        });
+
+        // Form Submission
+        const contactForm = document.getElementById('contactForm');
+        
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // In a real implementation, you would send the form data to a server
+            // For this example, we'll just show an alert
+            alert('Thank you for your message! Our team will contact you shortly.');
+            contactForm.reset();
+        });
+
+        // Scroll Animation
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+            }
+        });
+    </script>
+</body>
+</html>
