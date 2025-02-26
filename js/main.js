@@ -33,7 +33,7 @@ function initHeaderScroll() {
 
 /**
  * Mobile Menu Toggle
- * Handles the hamburger menu functionality
+ * Simplified, reliable hamburger menu implementation
  */
 function initMobileMenu() {
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
@@ -41,11 +41,6 @@ function initMobileMenu() {
     const hamburger = document.querySelector('.hamburger');
     const body = document.body;
     const header = document.querySelector('header');
-    
-    // Ensure the hamburger menu is visible on mobile
-    if (window.innerWidth <= 992) {
-        mobileMenuBtn.style.display = 'flex';
-    }
     
     // Create menu overlay if it doesn't exist
     let menuOverlay = document.querySelector('.menu-overlay');
@@ -55,91 +50,100 @@ function initMobileMenu() {
         body.appendChild(menuOverlay);
     }
     
-    // Make sure hamburger has correct styling
-    if (hamburger) {
-        const spans = hamburger.querySelectorAll('span');
-        spans.forEach(span => {
-            span.style.backgroundColor = 'var(--primary)';
-            span.style.display = 'block';
-        });
+    /**
+     * Shows mobile menu
+     */
+    function showMenu() {
+        navLinks.classList.add('show');
+        menuOverlay.classList.add('show');
+        hamburger.classList.add('open');
+        body.style.overflow = 'hidden';
+        mobileMenuBtn.setAttribute('aria-expanded', 'true');
     }
     
-    // Use mousedown instead of click for better responsiveness
-    mobileMenuBtn.addEventListener('mousedown', handleMenuToggle);
-    mobileMenuBtn.addEventListener('touchstart', handleMenuToggle, {passive: true});
-    
-    function handleMenuToggle(e) {
-        // Stop event propagation to prevent any issues with parent elements
-        e.stopPropagation();
-        
-        console.log('Mobile menu button clicked');
-        navLinks.classList.toggle('show');
-        menuOverlay.classList.toggle('show');
-        hamburger.classList.toggle('open');
-        
-        // Prevent scrolling when menu is open
-        if (navLinks.classList.contains('show')) {
-            body.style.overflow = 'hidden';
-        } else {
-            body.style.overflow = '';
-        }
-    }
-    
-    // Close menu when clicking on overlay
-    menuOverlay.addEventListener('click', () => {
+    /**
+     * Hides mobile menu
+     */
+    function hideMenu() {
         navLinks.classList.remove('show');
         menuOverlay.classList.remove('show');
         hamburger.classList.remove('open');
         body.style.overflow = '';
-    });
+        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+    }
     
-    // Close menu when clicking on a navigation link
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('show');
-            menuOverlay.classList.remove('show');
-            hamburger.classList.remove('open');
-            body.style.overflow = '';
-        });
-    });
-    
-    // Adjust menu position based on header height when scrolling
-    window.addEventListener('scroll', () => {
-        if (window.innerWidth <= 992) {
-            const headerHeight = header.offsetHeight;
-            navLinks.style.top = headerHeight + 'px';
-            menuOverlay.style.top = headerHeight + 'px';
-            menuOverlay.style.height = `calc(100% - ${headerHeight}px)`;
-        }
-    });
-    
-    // Close menu when resizing to desktop view
-    window.addEventListener('resize', () => {
-        if (window.innerWidth > 992 && navLinks.classList.contains('show')) {
-            navLinks.classList.remove('show');
-            menuOverlay.classList.remove('show');
-            hamburger.classList.remove('open');
-            body.style.overflow = '';
-        }
+    /**
+     * Toggles menu visibility
+     */
+    function toggleMenu(e) {
+        if (e) e.preventDefault();
         
-        // Ensure mobile menu button is visible/hidden at appropriate screen sizes
-        if (window.innerWidth <= 992) {
-            mobileMenuBtn.style.display = 'flex';
-            const headerHeight = header.offsetHeight;
-            navLinks.style.top = headerHeight + 'px';
-            menuOverlay.style.top = headerHeight + 'px';
-            menuOverlay.style.height = `calc(100% - ${headerHeight}px)`;
+        if (navLinks.classList.contains('show')) {
+            hideMenu();
         } else {
-            mobileMenuBtn.style.display = 'none';
+            showMenu();
+        }
+    }
+    
+    // Click event for reliability
+    mobileMenuBtn.addEventListener('click', toggleMenu);
+    
+    // Add keyboard support
+    mobileMenuBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            toggleMenu();
         }
     });
     
-    // Set initial position on page load
-    if (window.innerWidth <= 992) {
+    // Close menu when clicking overlay
+    menuOverlay.addEventListener('click', hideMenu);
+    
+    // Close menu when clicking navigation links
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', hideMenu);
+    });
+    
+    // Close menu with escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && navLinks.classList.contains('show')) {
+            hideMenu();
+        }
+    });
+    
+    // Set menu position based on header height
+    function setMenuPosition() {
         const headerHeight = header.offsetHeight;
         navLinks.style.top = headerHeight + 'px';
         menuOverlay.style.top = headerHeight + 'px';
         menuOverlay.style.height = `calc(100% - ${headerHeight}px)`;
+    }
+    
+    // Handle window resize events
+    window.addEventListener('resize', () => {
+        // If resizing to desktop, hide mobile menu
+        if (window.innerWidth > 992) {
+            hideMenu();
+            mobileMenuBtn.style.display = 'none';
+        } else {
+            mobileMenuBtn.style.display = 'flex';
+            setMenuPosition();
+        }
+    });
+    
+    // Handle scroll events for position adjustment
+    window.addEventListener('scroll', () => {
+        if (window.innerWidth <= 992) {
+            setMenuPosition();
+        }
+    });
+    
+    // Set initial state
+    if (window.innerWidth <= 992) {
+        mobileMenuBtn.style.display = 'flex';
+        setMenuPosition();
+    } else {
+        mobileMenuBtn.style.display = 'none';
     }
 }
 

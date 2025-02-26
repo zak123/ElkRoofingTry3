@@ -59,20 +59,20 @@
             <a href="#" class="logo-container">
                 <img src="logo.png" alt="ELK Roofing Logo" class="logo">
             </a>
-            <button class="mobile-menu-btn" aria-label="Toggle navigation menu">
-                <div class="hamburger">
+            <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links">
+                <div class="hamburger" aria-hidden="true">
                     <span></span>
                     <span></span>
                     <span></span>
                 </div>
             </button>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#locations">Locations</a></li>
-                <li><a href="#testimonials">Testimonials</a></li>
-                <li><a href="#contact">Contact</a></li>
+            <ul class="nav-links" id="nav-links" role="menu">
+                <li role="menuitem"><a href="#home">Home</a></li>
+                <li role="menuitem"><a href="#about">About</a></li>
+                <li role="menuitem"><a href="#services">Services</a></li>
+                <li role="menuitem"><a href="#locations">Locations</a></li>
+                <li role="menuitem"><a href="#testimonials">Testimonials</a></li>
+                <li role="menuitem"><a href="#contact">Contact</a></li>
             </ul>
         </div>
     </header>
