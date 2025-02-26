@@ -154,7 +154,7 @@ function initSmoothScrolling() {
 
 /**
  * Testimonial Slider Functionality
- * Manages the testimonial slider with navigation and autoplay
+ * Manages the testimonial slider with navigation (manual control only)
  */
 function initTestimonialSlider() {
     const testimonialSlides = document.querySelectorAll('.testimonial-slide');
@@ -166,7 +166,6 @@ function initTestimonialSlider() {
     if (!testimonialSlider) return;
     
     let currentSlide = 0;
-    let autoplayInterval;
     let touchStartX = 0;
     
     function showSlide(index) {
@@ -195,28 +194,24 @@ function initTestimonialSlider() {
     if (prevTestimonial) {
         prevTestimonial.addEventListener('click', () => {
             showSlide(currentSlide - 1);
-            resetAutoplay();
         });
     }
     
     if (nextTestimonial) {
         nextTestimonial.addEventListener('click', () => {
             showSlide(currentSlide + 1);
-            resetAutoplay();
         });
     }
     
     testimonialDots.forEach((dot, index) => {
         dot.addEventListener('click', () => {
             showSlide(index);
-            resetAutoplay();
         });
     });
     
     // Touch events for swipe on mobile
     testimonialSlider.addEventListener('touchstart', (e) => {
         touchStartX = e.changedTouches[0].screenX;
-        pauseAutoplay();
     }, {passive: true});
     
     testimonialSlider.addEventListener('touchend', (e) => {
@@ -230,33 +225,10 @@ function initTestimonialSlider() {
                 showSlide(currentSlide - 1); // Previous slide
             }
         }
-        
-        resetAutoplay();
     }, {passive: true});
-    
-    // Autoplay functionality
-    function startAutoplay() {
-        autoplayInterval = setInterval(() => {
-            showSlide(currentSlide + 1);
-        }, 6000);
-    }
-    
-    function pauseAutoplay() {
-        clearInterval(autoplayInterval);
-    }
-    
-    function resetAutoplay() {
-        pauseAutoplay();
-        startAutoplay();
-    }
-    
-    // Pause autoplay on hover
-    testimonialSlider.addEventListener('mouseenter', pauseAutoplay);
-    testimonialSlider.addEventListener('mouseleave', startAutoplay);
     
     // Initial slide setup
     showSlide(0);
-    startAutoplay();
 }
 
 /**

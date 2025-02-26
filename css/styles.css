@@ -852,8 +852,8 @@ header.scrolled .logo {
 
 /* Testimonials Section */
 .testimonials {
-    background-color: var(--primary);
-    color: var(--white);
+    background-color: var(--white);
+    color: var(--dark);
     position: relative;
     overflow: hidden;
 }
@@ -865,7 +865,7 @@ header.scrolled .logo {
     width: 300px;
     height: 300px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.05);
+    background: rgba(17, 105, 48, 0.03);
     z-index: 0;
 }
 
@@ -880,15 +880,15 @@ header.scrolled .logo {
 }
 
 .testimonials .section-title h2 {
-    color: var(--white);
+    color: var(--primary);
 }
 
 .testimonials .section-title h2::after {
-    background-color: var(--white);
+    background-color: var(--primary);
 }
 
 .testimonials .section-title p {
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--gray);
 }
 
 .testimonial-arrows {
@@ -907,42 +907,25 @@ header.scrolled .logo {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: var(--light-gray);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: var(--transition-base);
-    color: var(--white);
+    color: var(--primary);
     font-size: 1.5rem;
     pointer-events: auto;  /* Re-enable pointer events for the arrows themselves */
+    box-shadow: var(--shadow-sm);
 }
 
 .testimonial-arrow:hover {
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: var(--primary);
+    color: var(--white);
     transform: scale(1.1);
 }
 
-/* Testimonial slides - Fix flickering */
-.testimonial-slide {
-    text-align: center;
-    padding: 0 50px;
-    position: absolute;
-    width: 100%;
-    left: 0;
-    top: 0;
-    opacity: 0;
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    pointer-events: none;
-}
-
-.testimonial-slide.active {
-    opacity: 1;
-    position: relative;
-    pointer-events: auto;
-}
-
-/* Add this to the testimonial-slider to support absolute positioning of slides */
+/* Testimonial slider */
 .testimonial-slider {
     position: relative;
     max-width: 800px;
@@ -954,12 +937,22 @@ header.scrolled .logo {
 
 .testimonial-slide {
     text-align: center;
-    padding: 0 50px;
+    padding: 40px 50px;
     display: none;
+    background-color: var(--light);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
+    border-left: 4px solid var(--primary);
+    transition: all 0.5s ease;
+    opacity: 0;
+    transform: translateY(20px);
 }
 
 .testimonial-slide.active {
     display: block;
+    opacity: 1;
+    transform: translateY(0);
+    animation: fadeIn 0.5s ease-in-out;
 }
 
 .testimonial-content {
@@ -967,55 +960,105 @@ header.scrolled .logo {
     line-height: 1.8;
     margin-bottom: 30px;
     position: relative;
+    font-style: italic;
 }
 
 .testimonial-content::before,
 .testimonial-content::after {
     content: '"';
-    font-size: 4rem;
+    font-size: 3.5rem;
+    font-family: Georgia, serif;
     position: absolute;
-    opacity: 0.3;
+    color: var(--primary);
+    opacity: 0.2;
 }
 
 .testimonial-content::before {
-    top: -20px;
-    left: -40px;
+    top: -30px;
+    left: -20px;
 }
 
 .testimonial-content::after {
     bottom: -60px;
-    right: -40px;
+    right: -10px;
 }
 
 .testimonial-author {
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    color: var(--primary);
+    margin-bottom: 5px;
 }
 
 .testimonial-role {
     font-size: 0.9rem;
-    opacity: 0.8;
+    color: var(--gray);
+    font-style: italic;
 }
 
 .testimonial-nav {
     margin-top: 40px;
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 12px;
 }
 
 .testimonial-dot {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: var(--light-gray);
     cursor: pointer;
     transition: var(--transition-base);
+    box-shadow: var(--shadow-sm);
+    border: 2px solid transparent;
+}
+
+.testimonial-dot:hover {
+    background-color: var(--gray);
 }
 
 .testimonial-dot.active {
     background-color: var(--white);
+    border: 2px solid var(--primary);
     transform: scale(1.2);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile responsiveness for testimonials */
+@media (max-width: 768px) {
+    .testimonial-slide {
+        padding: 30px 20px;
+    }
+    
+    .testimonial-content {
+        font-size: 1.1rem;
+    }
+    
+    .testimonial-content::before,
+    .testimonial-content::after {
+        font-size: 2.5rem;
+    }
+    
+    .testimonial-content::before {
+        top: -20px;
+        left: -10px;
+    }
+    
+    .testimonial-content::after {
+        bottom: -40px;
+        right: -5px;
+    }
 }
 
 /* Contact Section */
