@@ -92,6 +92,8 @@ header {
     height: var(--header-height);
     display: flex;
     align-items: center;
+    left: 0; /* Ensure header always spans full width */
+    right: 0;
 }
 
 header.scrolled {
@@ -210,7 +212,7 @@ header.scrolled .logo {
     .mobile-menu-btn {
         display: flex; /* Shown on mobile */
         position: relative;
-        z-index: 1001; /* Above the overlay */
+        z-index: 1101; /* Above the overlay and header */
     }
     
     .header-container {
@@ -303,7 +305,7 @@ header.scrolled .logo {
         left: 0;
         width: 100%;
         background-color: rgba(0, 0, 0, 0.7);
-        z-index: 999;
+        z-index: 1050; /* Between header and menu button */
         transform: translateZ(0); /* Force GPU acceleration */
         -webkit-backdrop-filter: blur(2px); /* Subtle blur effect */
         backdrop-filter: blur(2px);

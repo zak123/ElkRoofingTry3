@@ -33,7 +33,7 @@ function initHeaderScroll() {
 
 /**
  * Mobile Menu Toggle
- * iOS-compatible hamburger menu implementation
+ * iOS-compatible hamburger menu implementation with fixed header
  */
 function initMobileMenu() {
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
@@ -52,14 +52,25 @@ function initMobileMenu() {
         // Save current scroll position
         const scrollPos = window.pageYOffset;
         
+        // Store the current header styles before modification
+        const headerZIndex = getComputedStyle(header).zIndex;
+        const headerPosition = getComputedStyle(header).position;
+        
+        // Store current header state in data attributes for restoration later
+        header.dataset.originalZIndex = headerZIndex;
+        header.dataset.originalPosition = headerPosition;
+        header.dataset.originalTop = header.style.top || '';
+        
         // Apply fixed positioning to prevent iOS scroll issues
         document.body.style.position = 'fixed';
         document.body.style.top = `-${scrollPos}px`;
         document.body.style.width = '100%';
         document.body.dataset.scrollY = scrollPos;
         
-        // Ensure header remains visible
-        header.style.top = `${scrollPos}px`;
+        // Ensure header remains visible and on top
+        header.style.position = 'fixed';
+        header.style.top = '0';
+        header.style.zIndex = '1100'; // Higher z-index to stay above overlay
         
         // Show menu elements
         navLinks.classList.add('show');
@@ -77,8 +88,10 @@ function initMobileMenu() {
         document.body.style.top = '';
         document.body.style.width = '';
         
-        // Reset header position
-        header.style.top = '';
+        // Reset header position to original state
+        header.style.zIndex = header.dataset.originalZIndex || '';
+        header.style.position = header.dataset.originalPosition || 'fixed';
+        header.style.top = header.dataset.originalTop;
         
         // Restore scroll position after removing fixed positioning
         window.scrollTo(0, scrollPos);
