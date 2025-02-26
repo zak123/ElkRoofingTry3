@@ -135,18 +135,52 @@
 
         /* Hero Section */
         .hero {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80');
-            background-size: cover;
-            background-position: center;
+            position: relative;
             height: 100vh;
             display: flex;
             align-items: center;
             color: var(--white);
             padding-top: 80px;
+            overflow: hidden;
+        }
+
+        .hero-video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translateX(-50%) translateY(-50%);
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(17, 105, 48, 0.6) 100%);
+            z-index: -1;
         }
 
         .hero-content {
             max-width: 700px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .hero h1 {
@@ -221,12 +255,36 @@
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            padding: 5px; /* Increased space for the border */
+            background: transparent;
+        }
+
+        .about-img::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 10px;
+            background: linear-gradient(90deg, var(--primary), var(--primary));
+            z-index: -1;
+            clip-path: circle(0% at center);
+            opacity: 0; /* Start with invisible border */
+            transition: clip-path 0.8s ease-out, opacity 0.6s ease-in;
+        }
+
+        .about-img.animate-border::before {
+            clip-path: circle(75% at center);
+            opacity: 1; /* Fade in to full opacity */
         }
 
         .about-img img {
             width: 100%;
             height: auto;
             display: block;
+            border-radius: 6px; /* Slightly smaller than container to show border */
         }
 
         .about-text {
@@ -260,11 +318,13 @@
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
         }
 
         .service-card:hover {
             transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
 
         .service-img {
@@ -275,15 +335,14 @@
 
         .service-img img {
             width: 100%;
-            height: 120%; /* Make image taller than container to allow movement */
+            height: 100%;
             object-fit: cover;
             transition: transform 0.5s ease-out;
-            transform: translateY(0) scale(1.1); /* Initial position */
-            transform-origin: center center;
+            transform: scale(1.1); /* Initial zoom level */
         }
 
         .service-card:hover .service-img img {
-            transform: translateY(0) scale(1.2); /* Maintain parallax position while zooming on hover */
+            transform: scale(1.2); /* Zoom in further on hover */
         }
 
         .service-content {
@@ -410,11 +469,32 @@
             transform: scale(1.1);
         }
 
+        /* Testimonial slides - Fix flickering */
+        .testimonial-slide {
+            text-align: center;
+            padding: 0 50px;
+            position: absolute;
+            width: 100%;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            pointer-events: none;
+        }
+
+        .testimonial-slide.active {
+            opacity: 1;
+            position: relative;
+            pointer-events: auto;
+        }
+
+        /* Add this to the testimonial-slider to support absolute positioning of slides */
         .testimonial-slider {
             position: relative;
             max-width: 800px;
             margin: 0 auto;
             padding: 30px 0;
+            min-height: 300px; /* Set a minimum height to prevent layout shifts */
         }
 
         .testimonial-slide {
@@ -672,7 +752,7 @@
             font-size: 0.9rem;
         }
 
-        /* Modal */
+        /* Modal - Enhanced styling and animations */
         .modal {
             display: none;
             position: fixed;
@@ -702,6 +782,8 @@
             transform: translateY(-50px);
             transition: transform 0.3s;
             padding-top: 60px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-top: 5px solid var(--primary);
         }
 
         .modal.show .modal-content {
@@ -715,7 +797,7 @@
             font-size: 1.5rem;
             cursor: pointer;
             color: var(--gray);
-            transition: color 0.3s;
+            transition: all 0.3s;
             width: 40px;
             height: 40px;
             display: flex;
@@ -730,10 +812,22 @@
         .close-modal:hover {
             color: var(--dark);
             background-color: #ddd;
+            transform: rotate(90deg);
         }
 
         .modal-header {
             margin-bottom: 30px;
+            position: relative;
+        }
+
+        .modal-header::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary);
         }
 
         .modal-header h3 {
@@ -760,127 +854,17 @@
         .modal-body li {
             margin-bottom: 8px;
             line-height: 1.5;
+            position: relative;
+            padding-left: 5px;
         }
 
-        /* Responsive Styles */
-        @media (max-width: 992px) {
-            .about-content {
-                flex-direction: column;
-            }
-            
-            .hero h1 {
-                font-size: 2.8rem;
-            }
-            
-            .testimonial-arrows {
-                width: 100%;
-                left: 0;
-            }
-            
-            .testimonial-arrow {
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
-            }
-            
-            .prev-testimonial {
-                left: -25px;
-            }
-            
-            .next-testimonial {
-                right: -25px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 90px;
-                left: 0;
-                width: 100%;
-                background-color: var(--white);
-                flex-direction: column;
-                padding: 20px 0;
-                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-            }
-            
-            .nav-links.show {
-                display: flex;
-            }
-            
-            .nav-links li {
-                margin: 10px 0;
-                text-align: center;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .btn {
-                display: block;
-                margin-bottom: 15px;
-                text-align: center;
-            }
-            
-            .btn-secondary {
-                margin-left: 0;
-            }
-            
-            .header-container {
-                padding: 15px 20px;
-            }
-            
-            .logo {
-                margin-left: 5px;
-            }
-            
-            .section {
-                padding: 60px 0;
-            }
-            
-            .section-title {
-                margin-bottom: 40px;
-            }
-            
-            /* Ensure service cards don't cause overflow */
-            .services-grid, .locations-grid {
-                padding: 0 5px;
-            }
-            
-            /* Adjust testimonial section for mobile */
-            .testimonial-slide {
-                padding: 30px 20px;
-            }
-            
-            /* Fix potential issues with contact section */
-            .contact-content {
-                padding: 0 5px;
-            }
-            
-            /* Ensure footer content doesn't overflow */
-            .footer-content {
-                padding: 0 5px;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .section {
-                padding: 60px 0;
-            }
-            
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .section-title h2 {
-                font-size: 2rem;
-            }
+        .modal-body li::before {
+            content: '•';
+            color: var(--primary);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
         }
 
         /* Bottom close button for modals on mobile */
@@ -941,6 +925,14 @@
 
     <!-- Hero Section -->
     <section class="hero" id="home">
+        <div class="hero-video-container">
+            <video autoplay muted loop playsinline class="hero-video">
+                <source src="hero_video.mp4" type="video/mp4">
+                <!-- Fallback image if video doesn't load -->
+                <img src="https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80" alt="Roofing Hero Image">
+            </video>
+        </div>
+        <div class="hero-overlay"></div>
         <div class="container">
             <div class="hero-content">
                 <h1>Quality Roofing Solutions for Your Home & Business</h1>
@@ -1523,29 +1515,41 @@
             });
         });
 
-        // Testimonial Slider
+        // Enhanced Testimonial Slider with Touch Support
         const testimonialSlides = document.querySelectorAll('.testimonial-slide');
         const testimonialDots = document.querySelectorAll('.testimonial-dot');
         const prevTestimonial = document.querySelector('.prev-testimonial');
         const nextTestimonial = document.querySelector('.next-testimonial');
         let currentSlide = 0;
+        let touchStartX = 0;
+        let touchEndX = 0;
 
         function showSlide(index) {
             // Handle wrapping around
             if (index < 0) index = testimonialSlides.length - 1;
             if (index >= testimonialSlides.length) index = 0;
             
-            // Hide all slides first
+            // Prepare the slides for animation
             testimonialSlides.forEach(slide => {
+                slide.style.opacity = '0';
+                slide.style.transform = 'translateX(20px)';
+                slide.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
                 slide.classList.remove('active');
             });
+            
+            // Update dots
             testimonialDots.forEach(dot => {
                 dot.classList.remove('active');
             });
             
-            // Show the selected slide
-            testimonialSlides[index].classList.add('active');
-            testimonialDots[index].classList.add('active');
+            // Show the selected slide with animation
+            setTimeout(() => {
+                testimonialSlides[index].classList.add('active');
+                testimonialSlides[index].style.opacity = '1';
+                testimonialSlides[index].style.transform = 'translateX(0)';
+                testimonialDots[index].classList.add('active');
+            }, 50);
+            
             currentSlide = index;
         }
 
@@ -1565,13 +1569,36 @@
             showSlide(currentSlide + 1);
         });
 
+        // Touch swipe functionality
+        const testimonialSlider = document.querySelector('.testimonial-slider');
+
+        testimonialSlider.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+
+        testimonialSlider.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, {passive: true});
+
+        function handleSwipe() {
+            const swipeThreshold = 50; // Minimum distance to register as a swipe
+            
+            if (touchEndX < touchStartX - swipeThreshold) {
+                // Swiped left, go to next slide
+                showSlide(currentSlide + 1);
+            } else if (touchEndX > touchStartX + swipeThreshold) {
+                // Swiped right, go to previous slide
+                showSlide(currentSlide - 1);
+            }
+        }
+
         // Auto-rotate testimonials
         let testimonialInterval = setInterval(() => {
             showSlide(currentSlide + 1);
         }, 6000);
 
         // Pause auto-rotation when hovering over the slider
-        const testimonialSlider = document.querySelector('.testimonial-slider');
         testimonialSlider.addEventListener('mouseenter', () => {
             clearInterval(testimonialInterval);
         });
@@ -1582,7 +1609,10 @@
             }, 6000);
         });
 
-        // Service Modal
+        // Initial slide setup
+        showSlide(0);
+
+        // Enhanced modal functionality
         const modal = document.getElementById('serviceModal');
         const modalTitle = document.getElementById('modalTitle');
         const modalBody = document.getElementById('modalBody');
@@ -1778,36 +1808,93 @@
             }
         };
 
-        serviceLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const service = link.getAttribute('data-service');
-                if (serviceDetails[service]) {
-                    modalTitle.textContent = serviceDetails[service].title;
-                    modalBody.innerHTML = serviceDetails[service].content;
+        // Function to open modal with animation
+        function openModal(service) {
+            if (serviceDetails[service]) {
+                modalTitle.textContent = serviceDetails[service].title;
+                modalBody.innerHTML = serviceDetails[service].content;
+                
+                // Reset any previous animations
+                modal.classList.remove('show');
+                
+                // Force a reflow to ensure animations restart
+                void modal.offsetWidth;
+                
+                // Show modal with animation
+                modal.style.display = 'block';
+                setTimeout(() => {
                     modal.classList.add('show');
-                }
+                }, 10);
+                
+                // Prevent body scrolling when modal is open
+                document.body.style.overflow = 'hidden';
+                
+                // Add entrance animation to list items
+                const listItems = modalBody.querySelectorAll('li');
+                listItems.forEach((item, index) => {
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateX(20px)';
+                    item.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                    
+                    setTimeout(() => {
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateX(0)';
+                    }, 300 + (index * 50));
+                });
+            }
+        }
+
+        // Function to close modal with animation
+        function closeModalWithAnimation() {
+            modal.classList.remove('show');
+            
+            // Wait for fade out animation to complete before hiding
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        // Make entire service card clickable
+        document.addEventListener('DOMContentLoaded', function() {
+            const serviceCards = document.querySelectorAll('.service-card');
+            
+            serviceCards.forEach(card => {
+                // Get the service type from the read-more link inside this card
+                const serviceLink = card.querySelector('.read-more');
+                const serviceType = serviceLink.getAttribute('data-service');
+                
+                // Make the entire card clickable
+                card.addEventListener('click', (e) => {
+                    // Only open modal if we didn't click on the link itself (to avoid double triggering)
+                    if (!e.target.closest('.read-more')) {
+                        e.preventDefault();
+                        openModal(serviceType);
+                    }
+                });
+                
+                // Keep the original link functionality
+                serviceLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation(); // Prevent the card click from also firing
+                    openModal(serviceType);
+                });
             });
         });
 
-        closeModal.addEventListener('click', () => {
-            modal.classList.remove('show');
-        });
-
-        mobileCloseBtn.addEventListener('click', () => {
-            modal.classList.remove('show');
-        });
+        closeModal.addEventListener('click', closeModalWithAnimation);
+        mobileCloseBtn.addEventListener('click', closeModalWithAnimation);
 
         window.addEventListener('click', (e) => {
             if (e.target === modal) {
-                modal.classList.remove('show');
+                closeModalWithAnimation();
             }
         });
 
         // Close modal when pressing Escape key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && modal.classList.contains('show')) {
-                modal.classList.remove('show');
+                closeModalWithAnimation();
             }
         });
 
@@ -1833,45 +1920,91 @@
             }
         });
 
-        // Improved parallax effect for service images
+        // Add scroll animation for About section image border
+        document.addEventListener('DOMContentLoaded', function() {
+            const aboutImg = document.querySelector('.about-img');
+            
+            function checkScroll() {
+                if (!aboutImg) return;
+                
+                const aboutImgRect = aboutImg.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                
+                // Start animation when the image is 30% visible and continue until it's 70% scrolled past
+                const startPoint = windowHeight * 0.7; // Start when 30% visible
+                const endPoint = windowHeight * 0.3;   // End when 70% scrolled past
+                
+                if (aboutImgRect.top < startPoint && aboutImgRect.bottom > endPoint) {
+                    // Calculate progress (0 to 1) based on how far we've scrolled through the element
+                    const total = startPoint - endPoint;
+                    const current = startPoint - aboutImgRect.top;
+                    const progress = Math.min(Math.max(current / total, 0), 1);
+                    
+                    // Apply the progress as a custom property to use for animation
+                    aboutImg.style.setProperty('--scroll-progress', progress);
+                    
+                    // Add class when we start seeing the element
+                    if (progress > 0) {
+                        aboutImg.classList.add('animate-border');
+                    }
+                } else if (aboutImgRect.bottom <= endPoint || aboutImgRect.top >= startPoint) {
+                    // Remove animation class when element is no longer in the target viewport area
+                    aboutImg.classList.remove('animate-border');
+                }
+            }
+            
+            // Check on scroll
+            window.addEventListener('scroll', checkScroll);
+            
+            // Initial check
+            checkScroll();
+        });
+
+        // Fix for service image parallax/zoom effect
         document.addEventListener('DOMContentLoaded', function() {
             const serviceCards = document.querySelectorAll('.service-card');
             
-            // Function to apply parallax effect
-            function applyParallaxToServices() {
+            // Function to apply zoom effect based on scroll position
+            function applyZoomEffectToServices() {
                 serviceCards.forEach(card => {
                     const img = card.querySelector('.service-img img');
                     const cardRect = card.getBoundingClientRect();
+                    const windowHeight = window.innerHeight;
                     
                     // Check if card is visible in viewport
-                    if (cardRect.top < window.innerHeight && cardRect.bottom > 0) {
+                    if (cardRect.top < windowHeight && cardRect.bottom > 0) {
                         // Calculate how far the card is in the viewport (0 to 1)
-                        const viewportPosition = 1 - (cardRect.top / window.innerHeight);
+                        const viewportPosition = 1 - (cardRect.top / windowHeight);
                         
-                        // Apply parallax effect - move image up as card comes into view
-                        // Limit movement to 20% of image height
-                        const moveAmount = Math.min(Math.max(viewportPosition * 20, 0), 20);
+                        // Apply zoom effect - scale between 1.1 and 1.15 based on scroll position
+                        const zoomAmount = 1.1 + (Math.min(Math.max(viewportPosition, 0), 1) * 0.05);
                         
-                        // Apply transform while preserving scale
-                        img.style.transform = `translateY(-${moveAmount}%) scale(1.1)`;
-                        
-                        // If card is hovered, maintain parallax but increase scale
-                        card.addEventListener('mouseenter', () => {
-                            img.style.transform = `translateY(-${moveAmount}%) scale(1.2)`;
-                        });
-                        
-                        card.addEventListener('mouseleave', () => {
-                            img.style.transform = `translateY(-${moveAmount}%) scale(1.1)`;
-                        });
+                        // Apply transform (but don't override hover effect)
+                        if (!card.matches(':hover')) {
+                            img.style.transform = `scale(${zoomAmount})`;
+                        }
                     }
                 });
             }
             
             // Apply effect on scroll
-            window.addEventListener('scroll', applyParallaxToServices);
+            window.addEventListener('scroll', applyZoomEffectToServices);
+            
+            // Handle hover states separately
+            serviceCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    const img = card.querySelector('.service-img img');
+                    img.style.transform = 'scale(1.2)';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    // Reapply the scroll-based zoom when leaving
+                    applyZoomEffectToServices();
+                });
+            });
             
             // Initial application
-            applyParallaxToServices();
+            applyZoomEffectToServices();
         });
     </script>
 </body>
