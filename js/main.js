@@ -40,6 +40,7 @@ function initMobileMenu() {
     const navLinks = document.querySelector('.nav-links');
     const hamburger = document.querySelector('.hamburger');
     const body = document.body;
+    const header = document.querySelector('header');
     
     // Ensure the hamburger menu is visible on mobile
     if (window.innerWidth <= 992) {
@@ -63,7 +64,14 @@ function initMobileMenu() {
         });
     }
     
-    mobileMenuBtn.addEventListener('click', () => {
+    // Use mousedown instead of click for better responsiveness
+    mobileMenuBtn.addEventListener('mousedown', handleMenuToggle);
+    mobileMenuBtn.addEventListener('touchstart', handleMenuToggle, {passive: true});
+    
+    function handleMenuToggle(e) {
+        // Stop event propagation to prevent any issues with parent elements
+        e.stopPropagation();
+        
         console.log('Mobile menu button clicked');
         navLinks.classList.toggle('show');
         menuOverlay.classList.toggle('show');
@@ -75,7 +83,7 @@ function initMobileMenu() {
         } else {
             body.style.overflow = '';
         }
-    });
+    }
     
     // Close menu when clicking on overlay
     menuOverlay.addEventListener('click', () => {
@@ -95,6 +103,16 @@ function initMobileMenu() {
         });
     });
     
+    // Adjust menu position based on header height when scrolling
+    window.addEventListener('scroll', () => {
+        if (window.innerWidth <= 992) {
+            const headerHeight = header.offsetHeight;
+            navLinks.style.top = headerHeight + 'px';
+            menuOverlay.style.top = headerHeight + 'px';
+            menuOverlay.style.height = `calc(100% - ${headerHeight}px)`;
+        }
+    });
+    
     // Close menu when resizing to desktop view
     window.addEventListener('resize', () => {
         if (window.innerWidth > 992 && navLinks.classList.contains('show')) {
@@ -107,10 +125,22 @@ function initMobileMenu() {
         // Ensure mobile menu button is visible/hidden at appropriate screen sizes
         if (window.innerWidth <= 992) {
             mobileMenuBtn.style.display = 'flex';
+            const headerHeight = header.offsetHeight;
+            navLinks.style.top = headerHeight + 'px';
+            menuOverlay.style.top = headerHeight + 'px';
+            menuOverlay.style.height = `calc(100% - ${headerHeight}px)`;
         } else {
             mobileMenuBtn.style.display = 'none';
         }
     });
+    
+    // Set initial position on page load
+    if (window.innerWidth <= 992) {
+        const headerHeight = header.offsetHeight;
+        navLinks.style.top = headerHeight + 'px';
+        menuOverlay.style.top = headerHeight + 'px';
+        menuOverlay.style.height = `calc(100% - ${headerHeight}px)`;
+    }
 }
 
 /**

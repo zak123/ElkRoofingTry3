@@ -233,6 +233,8 @@ header.scrolled .logo {
         display: flex; /* Show only on mobile/tablet */
         background-color: transparent;
         margin-right: 10px;
+        position: relative;
+        z-index: 1100; /* Higher z-index to ensure clickability */
     }
     
     /* Make hamburger visible with higher contrast */
@@ -260,6 +262,7 @@ header.scrolled .logo {
     .header-container {
         padding: 10px 20px;
         align-items: center;
+        position: relative;
     }
     
     /* Ensure logo doesn't get too large compared to the button */
@@ -269,7 +272,7 @@ header.scrolled .logo {
     
     .nav-links {
         position: fixed;
-        top: 80px;
+        /* top is dynamically set in JS based on header height */
         left: 0;
         width: 100%;
         background-color: var(--white);
@@ -319,10 +322,10 @@ header.scrolled .logo {
     /* Add overlay when menu is open */
     .menu-overlay {
         position: fixed;
-        top: 80px;
+        /* top is dynamically set in JS based on header height */
         left: 0;
         width: 100%;
-        height: calc(100% - 80px);
+        /* height is dynamically set in JS based on header height */
         background-color: rgba(0, 0, 0, 0.5);
         z-index: 99;
         opacity: 0;
