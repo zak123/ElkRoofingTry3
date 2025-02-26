@@ -41,6 +41,11 @@ function initMobileMenu() {
     const hamburger = document.querySelector('.hamburger');
     const body = document.body;
     
+    // Ensure the hamburger menu is visible on mobile
+    if (window.innerWidth <= 992) {
+        mobileMenuBtn.style.display = 'flex';
+    }
+    
     // Create menu overlay if it doesn't exist
     let menuOverlay = document.querySelector('.menu-overlay');
     if (!menuOverlay) {
@@ -49,7 +54,17 @@ function initMobileMenu() {
         body.appendChild(menuOverlay);
     }
     
+    // Make sure hamburger has correct styling
+    if (hamburger) {
+        const spans = hamburger.querySelectorAll('span');
+        spans.forEach(span => {
+            span.style.backgroundColor = 'var(--primary)';
+            span.style.display = 'block';
+        });
+    }
+    
     mobileMenuBtn.addEventListener('click', () => {
+        console.log('Mobile menu button clicked');
         navLinks.classList.toggle('show');
         menuOverlay.classList.toggle('show');
         hamburger.classList.toggle('open');
@@ -70,6 +85,16 @@ function initMobileMenu() {
         body.style.overflow = '';
     });
     
+    // Close menu when clicking on a navigation link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('show');
+            menuOverlay.classList.remove('show');
+            hamburger.classList.remove('open');
+            body.style.overflow = '';
+        });
+    });
+    
     // Close menu when resizing to desktop view
     window.addEventListener('resize', () => {
         if (window.innerWidth > 992 && navLinks.classList.contains('show')) {
@@ -77,6 +102,13 @@ function initMobileMenu() {
             menuOverlay.classList.remove('show');
             hamburger.classList.remove('open');
             body.style.overflow = '';
+        }
+        
+        // Ensure mobile menu button is visible/hidden at appropriate screen sizes
+        if (window.innerWidth <= 992) {
+            mobileMenuBtn.style.display = 'flex';
+        } else {
+            mobileMenuBtn.style.display = 'none';
         }
     });
 }

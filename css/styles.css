@@ -179,6 +179,9 @@ header.scrolled .logo {
     position: relative;
     transform: rotate(0deg);
     transition: .5s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .hamburger span {
@@ -192,46 +195,65 @@ header.scrolled .logo {
     left: 0;
     transform: rotate(0deg);
     transition: .25s ease-in-out;
+    background-color: var(--primary);
 }
 
 .hamburger span:nth-child(1) {
     top: 0px;
 }
 
-.hamburger span:nth-child(2),
-.hamburger span:nth-child(3) {
+.hamburger span:nth-child(2) {
     top: 12px; /* Adjusted for larger size */
 }
 
-.hamburger span:nth-child(4) {
+.hamburger span:nth-child(3) {
     top: 24px; /* Adjusted for larger size */
 }
 
-/* Hamburger animation - adjusted for new dimensions */
+/* Hamburger animation - adjusted for 3 lines */
 .hamburger.open span:nth-child(1) {
     top: 12px;
-    width: 0%;
-    left: 50%;
-}
-
-.hamburger.open span:nth-child(2) {
     transform: rotate(45deg);
 }
 
-.hamburger.open span:nth-child(3) {
-    transform: rotate(-45deg);
-}
-
-.hamburger.open span:nth-child(4) {
-    top: 12px;
+.hamburger.open span:nth-child(2) {
+    opacity: 0;
     width: 0%;
     left: 50%;
+}
+
+.hamburger.open span:nth-child(3) {
+    top: 12px;
+    transform: rotate(-45deg);
 }
 
 /* Mobile navigation styles */
 @media (max-width: 992px) {
     .mobile-menu-btn {
         display: flex; /* Show only on mobile/tablet */
+        background-color: transparent;
+        margin-right: 10px;
+    }
+    
+    /* Make hamburger visible with higher contrast */
+    .hamburger span {
+        background-color: var(--primary);
+        height: 4px;
+        width: 100%;
+        border-radius: 3px;
+    }
+    
+    /* Adjust spacing between hamburger bars */
+    .hamburger span:nth-child(1) {
+        top: 0px;
+    }
+    
+    .hamburger span:nth-child(2) {
+        top: 13px;
+    }
+    
+    .hamburger span:nth-child(3) {
+        top: 26px;
     }
     
     /* Adjust header container to accommodate larger button */
@@ -241,7 +263,7 @@ header.scrolled .logo {
     }
     
     /* Ensure logo doesn't get too large compared to the button */
-    .logo img {
+    .logo {
         max-height: 50px;
     }
     
