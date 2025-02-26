@@ -367,6 +367,39 @@
             background-color: #2a2a2a;
         }
 
+        /* Responsive button layout for smaller screens */
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .hero .btn {
+                display: block;
+                width: 100%;
+                margin-bottom: 15px;
+                text-align: center;
+            }
+            
+            .hero .btn-secondary {
+                margin-left: 0;
+            }
+        }
+
+        /* Medium screens - adjust button spacing */
+        @media (min-width: 577px) and (max-width: 768px) {
+            .hero .btn {
+                margin-right: 10px;
+            }
+            
+            .hero .btn-secondary {
+                margin-left: 0;
+            }
+        }
+
         /* About Section */
         .section {
             padding: 100px 0;
@@ -1700,52 +1733,36 @@
             });
         });
 
-        // Enhanced Testimonial Slider with Touch Support
+        // Simplified Testimonial Slider
         const testimonialSlides = document.querySelectorAll('.testimonial-slide');
         const testimonialDots = document.querySelectorAll('.testimonial-dot');
         const prevTestimonial = document.querySelector('.prev-testimonial');
         const nextTestimonial = document.querySelector('.next-testimonial');
         let currentSlide = 0;
-        let touchStartX = 0;
-        let touchEndX = 0;
 
         function showSlide(index) {
             // Handle wrapping around
             if (index < 0) index = testimonialSlides.length - 1;
             if (index >= testimonialSlides.length) index = 0;
             
-            // Prepare the slides for animation
+            // Hide all slides
             testimonialSlides.forEach(slide => {
-                slide.style.opacity = '0';
-                slide.style.transform = 'translateX(20px)';
-                slide.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
                 slide.classList.remove('active');
             });
+            
+            // Show the current slide
+            testimonialSlides[index].classList.add('active');
             
             // Update dots
             testimonialDots.forEach(dot => {
                 dot.classList.remove('active');
             });
-            
-            // Show the selected slide with animation
-            setTimeout(() => {
-                testimonialSlides[index].classList.add('active');
-                testimonialSlides[index].style.opacity = '1';
-                testimonialSlides[index].style.transform = 'translateX(0)';
-                testimonialDots[index].classList.add('active');
-            }, 50);
+            testimonialDots[index].classList.add('active');
             
             currentSlide = index;
         }
 
-        // Set up dot navigation
-        testimonialDots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                showSlide(index);
-            });
-        });
-
-        // Set up arrow navigation
+        // Event listeners for navigation
         prevTestimonial.addEventListener('click', () => {
             showSlide(currentSlide - 1);
         });
@@ -1754,45 +1771,37 @@
             showSlide(currentSlide + 1);
         });
 
-        // Touch swipe functionality
+        testimonialDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showSlide(index);
+            });
+        });
+
+        // Simple swipe detection
         const testimonialSlider = document.querySelector('.testimonial-slider');
+        let touchStartX = 0;
 
         testimonialSlider.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
         }, {passive: true});
 
         testimonialSlider.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, {passive: true});
-
-        function handleSwipe() {
-            const swipeThreshold = 50; // Minimum distance to register as a swipe
+            const touchEndX = e.changedTouches[0].screenX;
+            const diff = touchStartX - touchEndX;
             
-            if (touchEndX < touchStartX - swipeThreshold) {
-                // Swiped left, go to next slide
-                showSlide(currentSlide + 1);
-            } else if (touchEndX > touchStartX + swipeThreshold) {
-                // Swiped right, go to previous slide
-                showSlide(currentSlide - 1);
+            if (Math.abs(diff) > 50) { // Simple threshold
+                if (diff > 0) {
+                    showSlide(currentSlide + 1); // Next slide
+                } else {
+                    showSlide(currentSlide - 1); // Previous slide
+                }
             }
-        }
+        }, {passive: true});
 
         // Auto-rotate testimonials
         let testimonialInterval = setInterval(() => {
             showSlide(currentSlide + 1);
         }, 6000);
-
-        // Pause auto-rotation when hovering over the slider
-        testimonialSlider.addEventListener('mouseenter', () => {
-            clearInterval(testimonialInterval);
-        });
-
-        testimonialSlider.addEventListener('mouseleave', () => {
-            testimonialInterval = setInterval(() => {
-                showSlide(currentSlide + 1);
-            }, 6000);
-        });
 
         // Initial slide setup
         showSlide(0);
