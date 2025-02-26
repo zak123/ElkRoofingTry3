@@ -123,14 +123,156 @@
             color: var(--primary);
         }
 
+        /* Mobile Navigation - Larger Hamburger Menu Button */
         .mobile-menu-btn {
-            display: none;
+            display: none; /* Hide by default */
             background: none;
             border: none;
-            font-size: 24px;
             cursor: pointer;
-            color: var(--secondary);
-            padding-right: 15px;
+            padding: 15px;
+            z-index: 1000;
+            /* Increase touch target size */
+            width: 60px;
+            height: 60px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hamburger {
+            width: 36px;  /* Increased from 30px */
+            height: 24px; /* Increased from 20px */
+            position: relative;
+            transform: rotate(0deg);
+            transition: .5s ease-in-out;
+        }
+
+        .hamburger span {
+            display: block;
+            position: absolute;
+            height: 4px;  /* Increased from 3px */
+            width: 100%;
+            background: var(--primary);
+            border-radius: 4px;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: .25s ease-in-out;
+        }
+
+        .hamburger span:nth-child(1) {
+            top: 0px;
+        }
+
+        .hamburger span:nth-child(2),
+        .hamburger span:nth-child(3) {
+            top: 10px; /* Adjusted for larger size */
+        }
+
+        .hamburger span:nth-child(4) {
+            top: 20px; /* Adjusted for larger size */
+        }
+
+        /* Hamburger animation - adjusted for new dimensions */
+        .hamburger.open span:nth-child(1) {
+            top: 10px;
+            width: 0%;
+            left: 50%;
+        }
+
+        .hamburger.open span:nth-child(2) {
+            transform: rotate(45deg);
+        }
+
+        .hamburger.open span:nth-child(3) {
+            transform: rotate(-45deg);
+        }
+
+        .hamburger.open span:nth-child(4) {
+            top: 10px;
+            width: 0%;
+            left: 50%;
+        }
+
+        /* Mobile navigation styles */
+        @media (max-width: 992px) {
+            .mobile-menu-btn {
+                display: flex; /* Show only on mobile/tablet */
+            }
+            
+            /* Adjust header container to accommodate larger button */
+            .header-container {
+                padding: 10px 20px;
+                align-items: center;
+            }
+            
+            /* Ensure logo doesn't get too large compared to the button */
+            .logo img {
+                max-height: 50px;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: var(--white);
+                flex-direction: column;
+                padding: 0;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                z-index: 100;
+                max-height: calc(100vh - 80px);
+                overflow-y: auto;
+            }
+            
+            .nav-links.show {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            .nav-links li {
+                margin: 0;
+                width: 100%;
+                border-bottom: 1px solid var(--light-gray);
+            }
+            
+            .nav-links li:last-child {
+                border-bottom: none;
+            }
+            
+            .nav-links a {
+                padding: 15px 20px;
+                display: block;
+                color: var(--dark);
+                transition: background-color 0.3s;
+            }
+            
+            .nav-links a:hover {
+                background-color: var(--light-gray);
+            }
+            
+            /* Add overlay when menu is open */
+            .menu-overlay {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                height: calc(100% - 80px);
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 99;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+            
+            .menu-overlay.show {
+                opacity: 1;
+                visibility: visible;
+            }
         }
 
         /* Hero Section */
@@ -247,7 +389,7 @@
         .about-content {
             display: flex;
             align-items: center;
-            gap: 50px;
+            gap: 40px;
         }
 
         .about-img {
@@ -256,7 +398,7 @@
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             position: relative;
-            padding: 5px; /* Increased space for the border */
+            padding: 5px; /* Space for the border */
             background: transparent;
         }
 
@@ -896,6 +1038,44 @@
             /* Add more bottom padding to modal content for the button */
             .modal-content {
                 padding-bottom: 40px;
+            }
+        }
+
+        /* Mobile responsive fixes for About section */
+        @media (max-width: 992px) {
+            .about-content {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .about-img {
+                order: -1; /* This ensures the image appears first/above the text */
+                width: 100%;
+                max-width: 90%;
+                margin: 0 auto 30px auto;
+            }
+            
+            .about-text {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .about-text h3 {
+                margin-top: 0;
+            }
+            
+            .about-text .btn {
+                display: block;
+                width: 100%;
+                text-align: center;
+                margin-top: 20px;
+            }
+        }
+
+        /* Small Mobile Devices */
+        @media (max-width: 576px) {
+            .about-img {
+                max-width: 100%;
             }
         }
     </style>
