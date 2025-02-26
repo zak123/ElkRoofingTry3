@@ -132,15 +132,20 @@
             padding: 15px;
             z-index: 1000;
             /* Increase touch target size */
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             align-items: center;
             justify-content: center;
         }
 
+        .mobile-menu-btn i {
+            font-size: 36px; /* Much larger icon */
+            color: var(--primary);
+        }
+
         .hamburger {
-            width: 36px;  /* Increased from 30px */
-            height: 24px; /* Increased from 20px */
+            width: 45px;  /* Increased from 36px */
+            height: 30px; /* Increased from 24px */
             position: relative;
             transform: rotate(0deg);
             transition: .5s ease-in-out;
@@ -149,7 +154,7 @@
         .hamburger span {
             display: block;
             position: absolute;
-            height: 4px;  /* Increased from 3px */
+            height: 5px;  /* Increased from 4px */
             width: 100%;
             background: var(--primary);
             border-radius: 4px;
@@ -165,16 +170,16 @@
 
         .hamburger span:nth-child(2),
         .hamburger span:nth-child(3) {
-            top: 10px; /* Adjusted for larger size */
+            top: 12px; /* Adjusted for larger size */
         }
 
         .hamburger span:nth-child(4) {
-            top: 20px; /* Adjusted for larger size */
+            top: 24px; /* Adjusted for larger size */
         }
 
         /* Hamburger animation - adjusted for new dimensions */
         .hamburger.open span:nth-child(1) {
-            top: 10px;
+            top: 12px;
             width: 0%;
             left: 50%;
         }
@@ -188,7 +193,7 @@
         }
 
         .hamburger.open span:nth-child(4) {
-            top: 10px;
+            top: 12px;
             width: 0%;
             left: 50%;
         }
