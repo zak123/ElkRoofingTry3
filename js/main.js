@@ -58,6 +58,9 @@ function initMobileMenu() {
         document.body.style.width = '100%';
         document.body.dataset.scrollY = scrollPos;
         
+        // Ensure header remains visible
+        header.style.top = `${scrollPos}px`;
+        
         // Show menu elements
         navLinks.classList.add('show');
         menuOverlay.classList.add('show');
@@ -73,6 +76,9 @@ function initMobileMenu() {
         document.body.style.position = '';
         document.body.style.top = '';
         document.body.style.width = '';
+        
+        // Reset header position
+        header.style.top = '';
         
         // Restore scroll position after removing fixed positioning
         window.scrollTo(0, scrollPos);
