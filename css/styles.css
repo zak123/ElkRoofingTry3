@@ -1620,6 +1620,66 @@ footer::before {
   animation: fadeIn 1s ease-out 0.9s forwards;
 }
 
+/* Certifications Section */
+.certifications-section {
+  margin-top: 60px;
+  text-align: center;
+  padding: 30px 0;
+}
+
+.certifications-section h3 {
+  font-size: 1.8rem;
+  color: var(--primary);
+  margin-bottom: 15px;
+}
+
+.certifications-section p {
+  color: var(--gray);
+  margin-bottom: 30px;
+}
+
+.certification-logos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.certification-logo {
+  max-width: 120px;
+  height: auto;
+  filter: grayscale(30%);
+  opacity: 0.8;
+  transition: var(--transition-base);
+}
+
+.certification-logo:hover {
+  filter: grayscale(0%);
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .certification-logo {
+    max-width: 100px;
+  }
+  
+  .certification-logos {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .certification-logo {
+    max-width: 80px;
+  }
+  
+  .certification-logos {
+    gap: 15px;
+  }
+}
+
 /* Additional utility classes */
 .shadow-sm {
   box-shadow: var(--shadow-sm);
