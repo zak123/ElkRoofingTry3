@@ -95,7 +95,8 @@ function initMobileMenu() {
     header.style.top = header.dataset.originalTop;
 
     // Restore scroll position after removing fixed positioning
-    window.scrollTo(0, scrollPos);
+    // We're commenting this out to prevent the scroll-to-top issue
+    // window.scrollTo(0, scrollPos);
 
     // Hide menu elements
     navLinks.classList.remove("show");
@@ -128,9 +129,33 @@ function initMobileMenu() {
   // Close menu when clicking overlay
   menuOverlay.addEventListener("click", hideMenu);
 
-  // Close menu when clicking navigation links
+  // Close menu when clicking navigation links (but don't scroll to top)
   document.querySelectorAll(".nav-links a").forEach((link) => {
-    link.addEventListener("click", hideMenu);
+    link.addEventListener("click", (e) => {
+      // Don't call hideMenu directly, to avoid scroll issues
+      if (navLinks.classList.contains("show")) {
+        e.stopPropagation(); // Prevent event bubbling
+        
+        // Extract the saved scroll position to maintain it
+        const scrollPos = parseInt(document.body.dataset.scrollY || "0", 10);
+        
+        // Close the menu
+        navLinks.classList.remove("show");
+        menuOverlay.classList.remove("show");
+        hamburger.classList.remove("open");
+        mobileMenuBtn.setAttribute("aria-expanded", "false");
+        
+        // Restore normal body overflow
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.width = "";
+        
+        // Reset header styles
+        header.style.zIndex = header.dataset.originalZIndex || "";
+        header.style.position = header.dataset.originalPosition || "fixed";
+        header.style.top = header.dataset.originalTop;
+      }
+    });
   });
 
   // Close menu with escape key
@@ -196,40 +221,74 @@ function initMobileMenu() {
 /**
  * Smooth Scrolling for Anchor Links
  * Provides smooth scrolling to element when clicking on anchor links
+ * Uses a completely custom approach to ensure relative scrolling
  */
 function initSmoothScrolling() {
+  // Create custom smooth scroll function to ensure consistent behavior
+  function smoothScrollTo(targetElement) {
+    if (!targetElement) return;
+    
+    // Calculate header height dynamically
+    const header = document.querySelector("header");
+    const headerHeight = header ? header.offsetHeight : 80;
+    
+    // Get the distance from the current viewport position to the target
+    const targetRect = targetElement.getBoundingClientRect();
+    
+    // Calculate amount to scroll (accounting for header)
+    const scrollAmount = targetRect.top - headerHeight;
+    
+    // Use scrollBy for relative scrolling from current position
+    window.scrollBy({
+      top: scrollAmount,
+      behavior: "smooth"
+    });
+  }
+  
+  // Add click handler to all anchor links
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-    anchor.addEventListener("click", function (e) {
+    anchor.addEventListener("click", function(e) {
       e.preventDefault();
-
+      
+      // Skip for href="#"
       if (this.getAttribute("href") === "#") return;
-
-      const target = document.querySelector(this.getAttribute("href"));
-
-      if (target) {
-        // Close mobile menu if open
-        const navLinks = document.querySelector(".nav-links");
-        const menuOverlay = document.querySelector(".menu-overlay");
-        const hamburger = document.querySelector(".hamburger");
-
-        if (navLinks && navLinks.classList.contains("show")) {
-          navLinks.classList.remove("show");
-          if (menuOverlay) menuOverlay.classList.remove("show");
-          if (hamburger) hamburger.classList.remove("open");
-          document.body.style.overflow = "";
-        }
-
-        // Calculate header height dynamically
-        const header = document.querySelector("header");
-        const headerHeight = header ? header.offsetHeight : 80;
-
-        window.scrollTo({
-          top: target.offsetTop - headerHeight,
-          behavior: "smooth",
-        });
+      
+      // Find target element
+      const targetId = this.getAttribute("href").substring(1);
+      const targetElement = document.getElementById(targetId);
+      
+      if (targetElement) {
+        // Detect if this is a mobile menu link
+        const isMobileMenuLink = anchor.closest(".nav-links") && window.innerWidth <= 992;
+        
+        // Use a longer delay for mobile menu links to ensure the menu animation completes
+        // and the page layout stabilizes before scrolling
+        const scrollDelay = isMobileMenuLink ? 300 : 50;
+        
+        // Use custom scroll function with appropriate delay
+        setTimeout(() => {
+          // On mobile, recalculate the position right before scrolling
+          // This helps with accuracy after the menu is closed
+          smoothScrollTo(targetElement);
+        }, scrollDelay);
       }
     });
   });
+  
+  // Make floating button use the same smooth scroll
+  const floatingBtn = document.querySelector('.floating-btn a');
+  if (floatingBtn) {
+    floatingBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      const targetId = this.getAttribute("href").substring(1);
+      const targetElement = document.getElementById(targetId);
+      
+      if (targetElement) {
+        smoothScrollTo(targetElement);
+      }
+    });
+  }
 }
 
 /**
@@ -810,50 +869,53 @@ function initAnimations() {
  * Shows/hides the floating button based on scroll position
  */
 function initFloatingButton() {
-  const floatingBtn = document.querySelector('.floating-btn');
+  const floatingBtn = document.querySelector(".floating-btn");
   if (!floatingBtn) return;
-  
-  const heroSection = document.querySelector('.hero');
-  const contactSection = document.getElementById('contact');
-  
+
+  const heroSection = document.querySelector(".hero");
+  const contactSection = document.getElementById("contact");
+
   // Initially hide the button
-  floatingBtn.style.display = 'none';
-  
+  floatingBtn.style.display = "none";
+
   function updateButtonVisibility() {
     const heroHeight = heroSection ? heroSection.offsetHeight : 0;
-    const contactTop = contactSection ? contactSection.getBoundingClientRect().top + window.scrollY : 0;
+    const contactTop = contactSection
+      ? contactSection.getBoundingClientRect().top + window.scrollY
+      : 0;
     const windowBottom = window.scrollY + window.innerHeight;
-    
+
     // Show button after scrolling past hero, hide when contact section is visible
     if (window.scrollY > heroHeight && windowBottom < contactTop) {
-      if (floatingBtn.style.display === 'none') {
-        floatingBtn.style.display = 'block';
+      if (floatingBtn.style.display === "none") {
+        floatingBtn.style.display = "block";
         // Add entrance animation
-        floatingBtn.style.opacity = '0';
-        floatingBtn.style.transform = 'translateY(20px)';
-        
+        floatingBtn.style.opacity = "0";
+        floatingBtn.style.transform = "translateY(20px)";
+
         setTimeout(() => {
-          floatingBtn.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-          floatingBtn.style.opacity = '1';
-          floatingBtn.style.transform = 'translateY(0)';
+          floatingBtn.style.transition =
+            "opacity 0.3s ease, transform 0.3s ease";
+          floatingBtn.style.opacity = "1";
+          floatingBtn.style.transform = "translateY(0)";
         }, 10);
       }
     } else {
-      if (floatingBtn.style.display === 'block') {
+      if (floatingBtn.style.display === "block") {
         // Add exit animation
-        floatingBtn.style.opacity = '0';
-        floatingBtn.style.transform = 'translateY(20px)';
-        
+        floatingBtn.style.opacity = "0";
+        floatingBtn.style.transform = "translateY(20px)";
+
         setTimeout(() => {
-          floatingBtn.style.display = 'none';
+          floatingBtn.style.display = "none";
         }, 300);
       }
     }
   }
-  
+
   // Add scroll event listener
-  window.addEventListener('scroll', updateButtonVisibility);
-  
+  window.addEventListener("scroll", updateButtonVisibility);
+
   // Initial check
   updateButtonVisibility();
 }
