@@ -584,36 +584,52 @@ function initServiceModals() {
   // Function to open modal with animation
   function openModal(service) {
     if (serviceDetails[service]) {
+      // Prepare modal content first
       modalTitle.textContent = serviceDetails[service].title;
       modalBody.innerHTML = serviceDetails[service].content;
 
       // Reset any previous animations
       modal.classList.remove("show");
+      
+      // Make sure modal content is scrolled to top
+      const modalContent = modal.querySelector(".modal-content");
+      if (modalContent) {
+        modalContent.scrollTop = 0;
+      }
+      
+      // Pre-style list items for entrance animation
+      const listItems = modalBody.querySelectorAll("li");
+      listItems.forEach(item => {
+        item.style.opacity = "0";
+        item.style.transform = "translateX(20px)";
+        item.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+      });
 
       // Force a reflow to ensure animations restart
       void modal.offsetWidth;
 
+      // Store current scroll position to restore later
+      const scrollY = window.scrollY;
+      
+      // Record body scroll position and lock scrolling
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.dataset.modalScrollY = scrollY;
+      
       // Show modal with animation
       modal.style.display = "block";
       setTimeout(() => {
         modal.classList.add("show");
+        
+        // Animate list items sequentially
+        listItems.forEach((item, index) => {
+          setTimeout(() => {
+            item.style.opacity = "1";
+            item.style.transform = "translateX(0)";
+          }, 300 + index * 50);
+        });
       }, 10);
-
-      // Prevent body scrolling when modal is open
-      document.body.style.overflow = "hidden";
-
-      // Add entrance animation to list items
-      const listItems = modalBody.querySelectorAll("li");
-      listItems.forEach((item, index) => {
-        item.style.opacity = "0";
-        item.style.transform = "translateX(20px)";
-        item.style.transition = "opacity 0.3s ease, transform 0.3s ease";
-
-        setTimeout(() => {
-          item.style.opacity = "1";
-          item.style.transform = "translateX(0)";
-        }, 300 + index * 50);
-      });
     }
   }
 
@@ -624,7 +640,15 @@ function initServiceModals() {
     // Wait for fade out animation to complete before hiding
     setTimeout(() => {
       modal.style.display = "none";
-      document.body.style.overflow = "";
+      
+      // Restore body scroll position
+      const scrollY = parseInt(document.body.dataset.modalScrollY || '0', 10);
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
+      
+      // Restore scroll position
+      window.scrollTo(0, scrollY);
     }, 300);
   }
 
@@ -675,19 +699,25 @@ function initServiceModals() {
     mobileCloseBtn.addEventListener("click", closeModalWithAnimation);
   }
 
-  // Close when clicking outside modal
-  window.addEventListener("click", (e) => {
+  // Close when clicking outside modal (improved event handling)
+  modal.addEventListener("click", (e) => {
+    // Only close if clicking directly on the modal background, not on modal content
     if (e.target === modal) {
       closeModalWithAnimation();
     }
   });
 
-  // Close modal when pressing Escape key
-  document.addEventListener("keydown", (e) => {
+  // Close modal when pressing Escape key (more targeted approach)
+  modal.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && modal.classList.contains("show")) {
       closeModalWithAnimation();
     }
   });
+  
+  // Ensure modal is accessible via keyboard
+  modal.setAttribute("role", "dialog");
+  modal.setAttribute("aria-modal", "true");
+  closeModal.setAttribute("aria-label", "Close modal");
 }
 
 /**

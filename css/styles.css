@@ -152,6 +152,9 @@ header.scrolled {
   align-items: center;
   padding: 15px 0;
   width: 100%;
+  height: 100%; /* Ensure container fills header height */
+  overflow: visible; /* Prevent any scrollbars */
+  box-sizing: border-box; /* Include padding in height calculation */
 }
 
 .logo {
@@ -166,7 +169,7 @@ header.scrolled .logo {
 .nav-links {
   display: flex;
   list-style: none;
-  overflow-x: hidden;
+  overflow: visible; /* Changed from overflow-x to prevent any scrollbars */
 }
 
 .nav-links li {
@@ -286,14 +289,15 @@ header.scrolled .logo {
     padding: 0;
     box-shadow: var(--shadow-md);
     z-index: 1000;
-    overflow: hidden;
-    overflow-y: auto;
+    overflow: hidden; /* Hidden by default */
+    overflow-y: auto; /* Only vertical scrolling when needed */
     -webkit-overflow-scrolling: touch; /* Better scrolling for iOS */
     transform: translateY(-150%);
     opacity: 0;
     visibility: hidden;
     will-change: transform, opacity, visibility; /* Optimize for animations */
     transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+    max-height: calc(100vh - var(--header-height)); /* Prevent overflowing viewport */
   }
 
   /* Visible state */
