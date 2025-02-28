@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
   initServiceModals();
   initContactForm();
   initAnimations();
+  initFloatingButton();
 });
 
 /**
@@ -802,6 +803,59 @@ function initAnimations() {
   // Initialize animations on page load
   checkScroll();
   applyZoomEffectToServices();
+}
+
+/**
+ * Floating Button Functionality
+ * Shows/hides the floating button based on scroll position
+ */
+function initFloatingButton() {
+  const floatingBtn = document.querySelector('.floating-btn');
+  if (!floatingBtn) return;
+  
+  const heroSection = document.querySelector('.hero');
+  const contactSection = document.getElementById('contact');
+  
+  // Initially hide the button
+  floatingBtn.style.display = 'none';
+  
+  function updateButtonVisibility() {
+    const heroHeight = heroSection ? heroSection.offsetHeight : 0;
+    const contactTop = contactSection ? contactSection.getBoundingClientRect().top + window.scrollY : 0;
+    const windowBottom = window.scrollY + window.innerHeight;
+    
+    // Show button after scrolling past hero, hide when contact section is visible
+    if (window.scrollY > heroHeight && windowBottom < contactTop) {
+      if (floatingBtn.style.display === 'none') {
+        floatingBtn.style.display = 'block';
+        // Add entrance animation
+        floatingBtn.style.opacity = '0';
+        floatingBtn.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+          floatingBtn.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+          floatingBtn.style.opacity = '1';
+          floatingBtn.style.transform = 'translateY(0)';
+        }, 10);
+      }
+    } else {
+      if (floatingBtn.style.display === 'block') {
+        // Add exit animation
+        floatingBtn.style.opacity = '0';
+        floatingBtn.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+          floatingBtn.style.display = 'none';
+        }, 300);
+      }
+    }
+  }
+  
+  // Add scroll event listener
+  window.addEventListener('scroll', updateButtonVisibility);
+  
+  // Initial check
+  updateButtonVisibility();
 }
 
 /**
