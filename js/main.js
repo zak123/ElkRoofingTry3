@@ -34,92 +34,68 @@ function initHeaderScroll() {
 }
 
 /**
- * Mobile Menu Toggle
- * iOS-compatible hamburger menu implementation with fixed header
+ * Mobile Menu Toggle - Clean and Simple
  */
 function initMobileMenu() {
   const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
-  const navLinks = document.querySelector(".nav-links");
+  const mobileNav = document.querySelector(".mobile-nav");
+  const mobileNavOverlay = document.querySelector(".mobile-nav-overlay");
   const hamburger = document.querySelector(".hamburger");
   const body = document.body;
-  const header = document.querySelector("header");
 
-  // Create menu overlay
-  const menuOverlay = document.createElement("div");
-  menuOverlay.className = "menu-overlay";
-  document.body.appendChild(menuOverlay);
+  // Safety check
+  if (!mobileMenuBtn || !mobileNav || !mobileNavOverlay || !hamburger) {
+    console.error("Mobile menu elements not found");
+    return;
+  }
 
-  // Fixed position for iOS scroll issues
   function showMenu() {
-    // Save current scroll position
-    const scrollPos = window.pageYOffset;
-
-    // Store the current header styles before modification
-    const headerZIndex = getComputedStyle(header).zIndex;
-    const headerPosition = getComputedStyle(header).position;
-
-    // Store current header state in data attributes for restoration later
-    header.dataset.originalZIndex = headerZIndex;
-    header.dataset.originalPosition = headerPosition;
-    header.dataset.originalTop = header.style.top || "";
-
-    // Apply fixed positioning to prevent iOS scroll issues
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollPos}px`;
-    document.body.style.width = "100%";
-    document.body.dataset.scrollY = scrollPos;
-
-    // Ensure header remains visible and on top
-    header.style.position = "fixed";
-    header.style.top = "0";
-    header.style.zIndex = "1100"; // Higher z-index to stay above overlay
-
-    // Show menu elements
-    navLinks.classList.add("show");
-    menuOverlay.classList.add("show");
+    console.log('Showing mobile menu');
+    
+    // Add show classes
+    mobileNav.classList.add("show");
+    mobileNavOverlay.classList.add("show");
     hamburger.classList.add("open");
+    body.classList.add("mobile-menu-open");
+    
+    // Update ARIA
     mobileMenuBtn.setAttribute("aria-expanded", "true");
+    
+    console.log('Mobile menu shown');
   }
 
   function hideMenu() {
-    // Restore scroll position
-    const scrollPos = parseInt(document.body.dataset.scrollY || "0", 10);
-
-    // Remove fixed positioning
-    document.body.style.position = "";
-    document.body.style.top = "";
-    document.body.style.width = "";
-
-    // Reset header position to original state
-    header.style.zIndex = header.dataset.originalZIndex || "";
-    header.style.position = header.dataset.originalPosition || "fixed";
-    header.style.top = header.dataset.originalTop;
-
-    // Restore scroll position after removing fixed positioning
-    // We're commenting this out to prevent the scroll-to-top issue
-    // window.scrollTo(0, scrollPos);
-
-    // Hide menu elements
-    navLinks.classList.remove("show");
-    menuOverlay.classList.remove("show");
+    console.log('Hiding mobile menu');
+    
+    // Remove show classes
+    mobileNav.classList.remove("show");
+    mobileNavOverlay.classList.remove("show");
     hamburger.classList.remove("open");
+    body.classList.remove("mobile-menu-open");
+    
+    // Update ARIA
     mobileMenuBtn.setAttribute("aria-expanded", "false");
+    
+    console.log('Mobile menu hidden');
   }
 
   function toggleMenu(e) {
     if (e) e.preventDefault();
+    
+    const isMenuOpen = mobileNav.classList.contains("show");
+    console.log('Toggle menu - Currently open:', isMenuOpen);
 
-    if (navLinks.classList.contains("show")) {
+    if (isMenuOpen) {
       hideMenu();
     } else {
       showMenu();
     }
   }
 
-  // Click event for menu toggle button
+  // Event listeners
   mobileMenuBtn.addEventListener("click", toggleMenu);
-
-  // Keyboard support for accessibility
+  
+  // Keyboard support
   mobileMenuBtn.addEventListener("keydown", (e) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
@@ -127,96 +103,28 @@ function initMobileMenu() {
     }
   });
 
-  // Close menu when clicking overlay
-  menuOverlay.addEventListener("click", hideMenu);
+  // Close on overlay click
+  mobileNavOverlay.addEventListener("click", hideMenu);
 
-  // Close menu when clicking navigation links (but don't scroll to top)
-  document.querySelectorAll(".nav-links a").forEach((link) => {
-    link.addEventListener("click", (e) => {
-      // Don't call hideMenu directly, to avoid scroll issues
-      if (navLinks.classList.contains("show")) {
-        e.stopPropagation(); // Prevent event bubbling
-        
-        // Extract the saved scroll position to maintain it
-        const scrollPos = parseInt(document.body.dataset.scrollY || "0", 10);
-        
-        // Close the menu
-        navLinks.classList.remove("show");
-        menuOverlay.classList.remove("show");
-        hamburger.classList.remove("open");
-        mobileMenuBtn.setAttribute("aria-expanded", "false");
-        
-        // Restore normal body overflow
-        document.body.style.position = "";
-        document.body.style.top = "";
-        document.body.style.width = "";
-        
-        // Reset header styles
-        header.style.zIndex = header.dataset.originalZIndex || "";
-        header.style.position = header.dataset.originalPosition || "fixed";
-        header.style.top = header.dataset.originalTop;
-      }
-    });
+  // Close on nav link click
+  const mobileNavLinks = mobileNav.querySelectorAll("a");
+  mobileNavLinks.forEach((link) => {
+    link.addEventListener("click", hideMenu);
   });
 
-  // Close menu with escape key
+  // Close on escape key
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && navLinks.classList.contains("show")) {
+    if (e.key === "Escape" && mobileNav.classList.contains("show")) {
       hideMenu();
     }
   });
 
-  // Set menu position based on header height and make it stick to viewport
-  function setMenuPosition() {
-    const headerHeight = header.offsetHeight;
-    navLinks.style.top = headerHeight + "px";
-    navLinks.style.height = `calc(100vh - ${headerHeight}px)`;
-    navLinks.style.position = "fixed";
-
-    // Position the overlay to appear below the header
-    menuOverlay.style.top = headerHeight + "px";
-    menuOverlay.style.height = `calc(100vh - ${headerHeight}px)`;
-  }
-
-  // Add safety check for iOS to reset body styles on orientation change
-  window.addEventListener("orientationchange", () => {
-    if (!navLinks.classList.contains("show")) {
-      // Reset body styles if menu isn't open
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.width = "";
-    }
-  });
-
-  // Handle window resize events
+  // Close on window resize
   window.addEventListener("resize", () => {
-    // If resizing to desktop, hide mobile menu
-    if (window.innerWidth > 992) {
-      // Reset all styles if we're going to desktop view
-      if (navLinks.classList.contains("show")) {
-        hideMenu();
-      }
-      // Reset mobile menu styles when switching to desktop
-      mobileMenuBtn.style.display = "none";
-      navLinks.style.position = "";
-      navLinks.style.top = "";
-      navLinks.style.height = "";
-      navLinks.style.transform = "";
-      navLinks.style.opacity = "1";
-      navLinks.style.visibility = "visible";
-    } else {
-      mobileMenuBtn.style.display = "flex";
-      setMenuPosition();
+    if (window.innerWidth > 992 && mobileNav.classList.contains("show")) {
+      hideMenu();
     }
   });
-
-  // Set initial state
-  if (window.innerWidth <= 992) {
-    mobileMenuBtn.style.display = "flex";
-    setMenuPosition();
-  } else {
-    mobileMenuBtn.style.display = "none";
-  }
 }
 
 /**
@@ -1200,6 +1108,54 @@ function initGallery() {
         break;
     }
   });
+
+  // Touch gestures for lightbox (mobile)
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchEndX = 0;
+  let touchEndY = 0;
+  let isSwipeGesture = false;
+
+  if (lightboxModal) {
+    lightboxModal.addEventListener('touchstart', (e) => {
+      if (!lightboxModal.classList.contains('show')) return;
+      
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+      isSwipeGesture = false;
+    }, { passive: true });
+
+    lightboxModal.addEventListener('touchmove', (e) => {
+      if (!lightboxModal.classList.contains('show')) return;
+      
+      // Prevent default scrolling during swipe
+      if (Math.abs(touchStartX - e.changedTouches[0].screenX) > 10) {
+        e.preventDefault();
+        isSwipeGesture = true;
+      }
+    }, { passive: false });
+
+    lightboxModal.addEventListener('touchend', (e) => {
+      if (!lightboxModal.classList.contains('show') || !isSwipeGesture) return;
+      
+      touchEndX = e.changedTouches[0].screenX;
+      touchEndY = e.changedTouches[0].screenY;
+      
+      const deltaX = touchEndX - touchStartX;
+      const deltaY = touchEndY - touchStartY;
+      
+      // Only handle horizontal swipes (ignore vertical)
+      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+        if (deltaX > 0) {
+          // Swipe right - previous image
+          showPreviousImage();
+        } else {
+          // Swipe left - next image
+          showNextImage();
+        }
+      }
+    }, { passive: true });
+  }
 
   // Initialize gallery
   updateVisibleImages();

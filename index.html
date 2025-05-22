@@ -105,7 +105,7 @@
           class="mobile-menu-btn"
           aria-label="Toggle navigation menu"
           aria-expanded="false"
-          aria-controls="nav-links"
+          aria-controls="mobile-nav"
         >
           <div class="hamburger" aria-hidden="true">
             <span></span>
@@ -113,7 +113,8 @@
             <span></span>
           </div>
         </button>
-        <ul class="nav-links" id="nav-links" role="menu">
+        <!-- Desktop navigation -->
+        <ul class="nav-links" role="menu">
           <li role="menuitem"><a href="#home">Home</a></li>
           <li role="menuitem"><a href="#about">About</a></li>
           <li role="menuitem"><a href="#services">Services</a></li>
@@ -124,6 +125,20 @@
         </ul>
       </div>
     </header>
+
+    <!-- Mobile Navigation - Completely separate from header -->
+    <div class="mobile-nav-overlay" id="mobile-nav-overlay"></div>
+    <nav class="mobile-nav" id="mobile-nav" role="menu">
+      <ul class="mobile-nav-links">
+        <li role="menuitem"><a href="#home">Home</a></li>
+        <li role="menuitem"><a href="#about">About</a></li>
+        <li role="menuitem"><a href="#services">Services</a></li>
+        <li role="menuitem"><a href="#gallery">Gallery</a></li>
+        <li role="menuitem"><a href="#locations">Locations</a></li>
+        <li role="menuitem"><a href="#testimonials">Testimonials</a></li>
+        <li role="menuitem"><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
 
     <!-- Hero Section -->
     <section class="hero" id="home">
