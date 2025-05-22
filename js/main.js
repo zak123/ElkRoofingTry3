@@ -1017,13 +1017,13 @@ function initGallery() {
 
       if (shouldShow) {
         // Show item with staggered animation
+        item.classList.remove('hidden');
         setTimeout(() => {
           item.style.display = 'block';
-          item.classList.remove('hidden');
           item.classList.add('show');
         }, index * 50);
       } else {
-        // Hide item
+        // Hide item immediately
         item.classList.add('hidden');
         setTimeout(() => {
           if (item.classList.contains('hidden')) {
@@ -1033,8 +1033,10 @@ function initGallery() {
       }
     });
 
-    // Update visible images array for lightbox
-    updateVisibleImages();
+    // Update visible images array for lightbox after a delay to ensure DOM is updated
+    setTimeout(() => {
+      updateVisibleImages();
+    }, 100);
   }
 
   // Update visible images based on current filter
@@ -1042,21 +1044,28 @@ function initGallery() {
     visibleImages = [];
     galleryItems.forEach(item => {
       const category = item.getAttribute('data-category');
-      const shouldInclude = currentFilter === 'all' || category === category;
+      const shouldInclude = currentFilter === 'all' || category === currentFilter;
       
+      // Check both the filter logic and that the item is actually visible
       if (shouldInclude && !item.classList.contains('hidden')) {
         const img = item.querySelector('img');
-        const title = item.querySelector('.gallery-info h3').textContent;
-        const categoryText = item.querySelector('.gallery-info p').textContent;
+        const titleElement = item.querySelector('.gallery-info h3');
+        const categoryElement = item.querySelector('.gallery-info p');
         
-        visibleImages.push({
-          src: img.src,
-          alt: img.alt,
-          title: title,
-          category: categoryText
-        });
+        // Safety checks to ensure elements exist
+        if (img && titleElement && categoryElement) {
+          visibleImages.push({
+            src: img.src,
+            alt: img.alt,
+            title: titleElement.textContent,
+            category: categoryElement.textContent,
+            element: item // Store reference to the DOM element
+          });
+        }
       }
     });
+    
+    console.log('Updated visible images for filter:', currentFilter, 'Count:', visibleImages.length);
   }
 
   // Lightbox functionality
@@ -1128,27 +1137,20 @@ function initGallery() {
     const openHandler = (e) => {
       e.preventDefault();
       
-      // Find the index of this item in the visible images array
-      const category = item.getAttribute('data-category');
-      const shouldInclude = currentFilter === 'all' || category === currentFilter;
+      // Find the index of this item in the visible images array by matching the element
+      const lightboxIndex = visibleImages.findIndex(visibleImage => visibleImage.element === item);
       
-      if (shouldInclude) {
-        let lightboxIndex = 0;
-        let currentIndex = 0;
-        
-        galleryItems.forEach(otherItem => {
-          const otherCategory = otherItem.getAttribute('data-category');
-          const otherShouldInclude = currentFilter === 'all' || otherCategory === currentFilter;
-          
-          if (otherShouldInclude && !otherItem.classList.contains('hidden')) {
-            if (otherItem === item) {
-              lightboxIndex = currentIndex;
-            }
-            currentIndex++;
-          }
-        });
-        
+      console.log('Click handler - Item category:', item.getAttribute('data-category'), 'Current filter:', currentFilter, 'Found index:', lightboxIndex);
+      
+      if (lightboxIndex !== -1) {
         openLightbox(lightboxIndex);
+      } else {
+        // Fallback: update visible images and try again
+        updateVisibleImages();
+        const retryIndex = visibleImages.findIndex(visibleImage => visibleImage.element === item);
+        if (retryIndex !== -1) {
+          openLightbox(retryIndex);
+        }
       }
     };
     
